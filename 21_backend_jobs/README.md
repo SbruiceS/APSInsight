@@ -8,7 +8,7 @@
 
 ## Where the implementation lives
 
-Nothing is implemented for this area yet. See *Known gaps*.
+- [crates/apsi-jobs/src](../crates/apsi-jobs/src)
 
 ## Register coverage
 
@@ -21,4 +21,4 @@ Feature counts by honest status, from [docs/traceability.csv](../docs/traceabili
 
 ## Known gaps
 
-No job queue or worker; workflows run synchronously.
+The deterministic job-lifecycle core is implemented, but it has no durable storage adapter, API route or deployed worker; workflows still run synchronously.

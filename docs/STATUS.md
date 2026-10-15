@@ -67,8 +67,8 @@ Every feature in the register has exactly one status. A status reflects code plu
 | 49 | [Decision support and recommendations](domains/decision-support-and-recommendations.md) | 27 | 4 | 0 | 0 |  |
 | 50 | [Optimization and simulation](domains/optimization-and-simulation.md) | 3 | 28 | 0 | 0 | No solvers or simulation runtime. |
 | 51 | [Scientific workflow engine](domains/scientific-workflow-engine.md) | 27 | 4 | 0 | 0 |  |
-| 52 | [Background job execution](domains/background-job-execution.md) | 3 | 0 | 28 | 0 | Workflows run synchronously inside the request; there is no queue, lease, cancellation or stuck-job detection. |
-| 53 | [Scheduling and resource management](domains/scheduling-and-resource-management.md) | 3 | 0 | 28 | 0 | No scheduler, quotas or admission control. |
+| 52 | [Background job execution](domains/background-job-execution.md) | 3 | 0 | 28 | 0 | apsi-jobs provides a tested, deterministic tenant-safe lifecycle core (leases, cancellation, retry and expired-lease recovery), but has no durable adapter, API route or deployed worker; workflows still run synchronously. |
+| 53 | [Scheduling and resource management](domains/scheduling-and-resource-management.md) | 3 | 0 | 28 | 0 | The lifecycle core supports scheduled availability and retry backoff, but there is no scheduler, quota or admission-control runtime. |
 | 54 | [Research notebooks and projects](domains/research-notebooks-and-projects.md) | 3 | 28 | 0 | 0 | Project and notebook metadata only; no notebook execution. |
 | 55 | [Visualization and dashboards](domains/visualization-and-dashboards.md) | 3 | 28 | 0 | 0 | Summary dashboards only; no chart definitions or image export. |
 | 56 | [GIS map workspace](domains/gis-map-workspace.md) | 3 | 0 | 28 | 0 | There is no map view in the UI. |

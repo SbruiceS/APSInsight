@@ -13,6 +13,7 @@
 - [crates/apsi-core](../crates/apsi-core)
 - [crates/apsi-science](../crates/apsi-science)
 - [crates/apsi-contracts](../crates/apsi-contracts)
+- [crates/apsi-jobs](../crates/apsi-jobs)
 - [crates/apsi-server](../crates/apsi-server)
 - [crates/apsi-cli](../crates/apsi-cli)
 

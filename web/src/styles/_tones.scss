@@ -1,0 +1,44 @@
+// Imported last so attribute tones win over component defaults of equal specificity.
+
+// Tone, status, lifecycle, outcome and level all resolve to one --tone pair,
+// so every component colours itself from the same small vocabulary. Colour is
+// always paired with text or an icon, never the only cue.
+$tones: 'leaf', 'soil', 'wheat', 'sky', 'clay', 'berry', 'slate';
+
+@each $t in $tones {
+  [data-tone='#{$t}'] {
+    --tone: var(--#{$t});
+    --tone-bg: var(--#{$t}-bg);
+  }
+}
+
+$status-tones: (
+  'implemented-and-tested': 'leaf',
+  'implemented-not-fully-tested': 'wheat',
+  'specified-only': 'slate',
+  'blocked-external': 'clay',
+);
+
+@each $s, $t in $status-tones {
+  [data-status='#{$s}'] {
+    --tone: var(--#{$t});
+    --tone-bg: var(--#{$t}-bg);
+  }
+}
+
+$state-tones: (
+  'lifecycle': (active: 'leaf', draft: 'wheat', archived: 'slate'),
+  'outcome': (allowed: 'leaf', denied: 'clay', failed: 'clay'),
+  'level': (good: 'leaf', fair: 'wheat', poor: 'clay', none: 'slate'),
+  'kind': (success: 'leaf', info: 'sky', error: 'clay'),
+  'state': (available: 'leaf', unavailable: 'wheat'),
+);
+
+@each $attr, $map in $state-tones {
+  @each $v, $t in $map {
+    [data-#{$attr}='#{$v}'] {
+      --tone: var(--#{$t});
+      --tone-bg: var(--#{$t}-bg);
+    }
+  }
+}

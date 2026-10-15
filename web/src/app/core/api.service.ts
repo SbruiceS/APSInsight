@@ -4,12 +4,15 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import {
   ApsiRecord,
   AuditEvent,
+  AuditVerification,
   Catalog,
+  ComputeFunction,
   DomainDashboard,
   Envelope,
   ErrorBody,
   Feature,
   FieldChange,
+  IntegrationReport,
   Lifecycle,
   NewRecord,
   Notification,
@@ -19,6 +22,7 @@ import {
   QualityReport,
   RecordVersion,
   SearchPage,
+  StatusSummary,
   TraceRow,
 } from './models';
 
@@ -154,6 +158,26 @@ export class Api {
 
   audit(limit = 200): Observable<AuditEvent[]> {
     return this.get('/api/v1/audit', new HttpParams().set('limit', limit));
+  }
+
+  auditVerify(): Observable<AuditVerification> {
+    return this.get('/api/v1/audit/verify');
+  }
+
+  status(): Observable<StatusSummary> {
+    return this.get('/api/v1/status');
+  }
+
+  integrations(): Observable<IntegrationReport[]> {
+    return this.get('/api/v1/integrations');
+  }
+
+  computeFunctions(): Observable<ComputeFunction[]> {
+    return this.get('/api/v1/compute');
+  }
+
+  compute(fn: string, input: unknown): Observable<unknown> {
+    return this.post(`/api/v1/compute/${encodeURIComponent(fn)}`, input);
   }
 
   private kind(domain: string, entity: string): string {

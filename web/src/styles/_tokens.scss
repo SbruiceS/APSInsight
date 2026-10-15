@@ -1,0 +1,118 @@
+// Design tokens: an agricultural palette (leaf, soil, wheat, sky, clay, berry,
+// slate) with light and dark themes. The theme follows the OS unless the user
+// picks one, which sets <html data-theme="light|dark"> (core/theme.ts).
+
+@mixin light {
+  --bg: #f5f3ea;
+  --bg-grain: #efece0;
+  --surface: #fffdf7;
+  --surface-2: #f8f6ee;
+  --fg: #1e291f;
+  --muted: #566357;
+  --line: #dcd8c8;
+  --line-strong: #c4bfa9;
+  --accent: #2e6b34;
+  --accent-strong: #234f28;
+  --accent-fg: #ffffff;
+  --focus: #b07a00;
+  --shadow: 0 1px 2px rgb(40 50 30 / 8%), 0 4px 16px rgb(40 50 30 / 6%);
+  --shadow-lift: 0 2px 4px rgb(40 50 30 / 10%), 0 12px 28px rgb(40 50 30 / 12%);
+
+  --leaf: #3d7a35;
+  --leaf-bg: #e3efd9;
+  --soil: #7a4f2b;
+  --soil-bg: #f1e5d6;
+  --wheat: #8a6105;
+  --wheat-bg: #f7ecc9;
+  --sky: #255f8a;
+  --sky-bg: #dbeaf4;
+  --clay: #a8432a;
+  --clay-bg: #f7e0d7;
+  --berry: #7a3a6b;
+  --berry-bg: #f1e0ed;
+  --slate: #4b5963;
+  --slate-bg: #e3e8eb;
+
+  --sidebar-bg: linear-gradient(180deg, #1f4a26 0%, #183a1e 60%, #2b2a17 100%);
+  --sidebar-fg: #eef4e6;
+  --sidebar-muted: #b7c7ac;
+  --sidebar-active: rgb(255 255 255 / 14%);
+
+  --sky-top: #bfe0f2;
+  --sky-bottom: #f6efd6;
+  --sun: #f2b42c;
+  --cloud: #ffffff;
+  --hill-far: #a6c98a;
+  --hill: #6f9f4f;
+  --crop: #2f6a2c;
+  --tractor: #c0392b;
+  --wheel: #2b2b2b;
+  color-scheme: light;
+}
+
+@mixin dark {
+  --bg: #0f150f;
+  --bg-grain: #121a12;
+  --surface: #172017;
+  --surface-2: #1d281d;
+  --fg: #e4ebe0;
+  --muted: #a3b19f;
+  --line: #2c392c;
+  --line-strong: #3d4d3c;
+  --accent: #8fcf7f;
+  --accent-strong: #b3e3a6;
+  --accent-fg: #0e1a0e;
+  --focus: #f0c000;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-lift: 0 4px 20px rgb(0 0 0 / 50%);
+
+  --leaf: #93d084;
+  --leaf-bg: #1f3320;
+  --soil: #d9ab7f;
+  --soil-bg: #33261a;
+  --wheat: #e9c55c;
+  --wheat-bg: #332a12;
+  --sky: #82bde6;
+  --sky-bg: #142a3a;
+  --clay: #f09c82;
+  --clay-bg: #3a1f18;
+  --berry: #dc9fcd;
+  --berry-bg: #33192e;
+  --slate: #aebcc6;
+  --slate-bg: #222b31;
+
+  --sidebar-bg: linear-gradient(180deg, #0c1a0e 0%, #0d160d 70%, #171708 100%);
+  --sidebar-fg: #e4ebe0;
+  --sidebar-muted: #9fb196;
+  --sidebar-active: rgb(143 207 127 / 16%);
+
+  --sky-top: #0f2236;
+  --sky-bottom: #2a3320;
+  --sun: #e7d27a;
+  --cloud: #5b6a74;
+  --hill-far: #2d4a28;
+  --hill: #22391f;
+  --crop: #6fae5f;
+  --tractor: #c8553f;
+  --wheel: #0b0b0b;
+  color-scheme: dark;
+}
+
+:root {
+  @include light;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font: system-ui, -apple-system, 'Segoe UI', 'Noto Sans', 'Noto Sans Devanagari', sans-serif;
+  --mono: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Menlo, Consolas, monospace;
+  --sidebar-w: 268px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark;
+}

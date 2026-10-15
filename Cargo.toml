@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/apsi-core", "crates/apsi-science", "crates/apsi-contracts", "crates/apsi-server", "crates/apsi-cli"]
+members = ["crates/apsi-core", "crates/apsi-science", "crates/apsi-contracts", "crates/apsi-jobs", "crates/apsi-native", "crates/apsi-engine", "crates/apsi-server", "crates/apsi-cli"]
 
 [workspace.package]
 version = "0.1.0"

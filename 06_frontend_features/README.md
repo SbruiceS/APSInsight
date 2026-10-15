@@ -16,4 +16,4 @@ No register domain is owned here; this directory holds cross-cutting code used b
 
 ## Known gaps
 
-No GIS map, research workbench or administration screens.
+The Science Lab runs registered compute functions, but there is no GIS map, no saved-analysis research workbench and no administration screens.

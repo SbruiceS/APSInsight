@@ -1,0 +1,316 @@
+// APSInsight logo (shared/logo.ts). Every rule below describes the finished
+// mark; animations only run from a start state toward it (fill-mode
+// backwards), so with reduced motion (_base.scss) the logo is simply complete.
+
+:root {
+  --logo-leaf: #6cc24a;
+  --logo-green: #10a84f;
+  --logo-forest: #1d7a35;
+  --logo-teal: #0f9a9c;
+  --logo-navy: #0b3a86;
+  --logo-ink: #10377a;
+}
+
+@mixin logo-dark {
+  --logo-leaf: #8fdc6a;
+  --logo-green: #3cc775;
+  --logo-forest: #4fae55;
+  --logo-teal: #36c2c2;
+  --logo-navy: #5f9eee;
+  --logo-ink: #cfe0ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include logo-dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include logo-dark;
+}
+
+.apsi-logo {
+  display: block;
+  line-height: 0;
+}
+
+.apsi-logo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.lg-stop-leaf {
+  stop-color: var(--logo-leaf);
+}
+
+.lg-stop-green {
+  stop-color: var(--logo-green);
+}
+
+.lg-stop-forest {
+  stop-color: var(--logo-forest);
+}
+
+.lg-stop-teal {
+  stop-color: var(--logo-teal);
+}
+
+.lg-stop-navy {
+  stop-color: var(--logo-navy);
+}
+
+.lg-stop-ink {
+  stop-color: var(--logo-ink);
+}
+
+.lg-arc-green {
+  fill: none;
+  stroke: var(--logo-leaf);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.lg-trend {
+  fill: none;
+  stroke: var(--logo-teal);
+  stroke-width: 6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.lg-point {
+  fill: var(--logo-teal);
+}
+
+.lg-point-green {
+  fill: var(--logo-green);
+}
+
+.lg-point-last {
+  fill: var(--logo-teal);
+  stroke: var(--surface, #fff);
+  stroke-width: 3;
+}
+
+.lg-leaf-under {
+  opacity: 0.85;
+}
+
+.lg-leaf-rib {
+  fill: none;
+  stroke: #fff;
+  stroke-opacity: 0.85;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.lg-insight {
+  font-family: 'Segoe UI', 'Poppins', 'Montserrat', system-ui, sans-serif;
+  font-size: 168px;
+  font-weight: 650;
+  letter-spacing: -2px;
+}
+
+.lg-ink {
+  fill: var(--logo-ink);
+}
+
+.lg-sheen {
+  opacity: 0;
+}
+
+// Transform anchors; fill-box keeps each part pivoting on itself.
+.apsi-logo :is(.lg-letter, .lg-bar, .lg-point, .lg-leaf-group, .lg-wave, .lg-insight) {
+  transform-box: fill-box;
+}
+
+.lg-bar {
+  transform-origin: center bottom;
+}
+
+.lg-point {
+  transform-origin: center;
+}
+
+.lg-leaf-group {
+  transform-origin: left bottom;
+}
+
+.lg-wave {
+  transform-origin: left center;
+}
+
+.lg-arc-blue {
+  transform-box: view-box;
+  transform-origin: 1270px 390px;
+}
+
+// ----- intro (runs once) and ambient loop -----
+
+.apsi-logo.animated {
+  .lg-letter {
+    animation: lg-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    animation-delay: calc(0.1s + var(--i) * 0.14s);
+  }
+
+  .lg-insight {
+    animation: lg-slide 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s backwards;
+  }
+
+  .lg-leaf-group {
+    animation:
+      lg-unfurl 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 0.45s backwards,
+      lg-sway 5s ease-in-out 1.6s infinite;
+  }
+
+  .lg-bar {
+    animation: lg-grow 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards;
+    animation-delay: calc(0.9s + var(--i) * 0.1s);
+  }
+
+  .lg-trend {
+    stroke-dasharray: 1;
+    animation: lg-draw 1s ease-out 1.3s backwards;
+  }
+
+  .lg-point {
+    animation: lg-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+    animation-delay: calc(1.35s + var(--i) * 0.15s);
+  }
+
+  .lg-point-last {
+    animation:
+      lg-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 2.1s backwards,
+      lg-pulse 2.4s ease-in-out 2.6s infinite;
+  }
+
+  .lg-arc-green {
+    stroke-dasharray: 1;
+    animation: lg-draw 1.1s ease-in-out 0.7s backwards;
+  }
+
+  .lg-arc-blue {
+    animation: lg-orbit 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.8s backwards;
+  }
+
+  .lg-wave-1 {
+    animation:
+      lg-sweep 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1s backwards,
+      lg-flow 6s ease-in-out 2s infinite alternate;
+  }
+
+  .lg-wave-2 {
+    animation:
+      lg-sweep 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.15s backwards,
+      lg-flow 7s ease-in-out 2.2s infinite alternate-reverse;
+  }
+
+  .lg-sheen {
+    animation: lg-sheen 7s ease-in-out 2.4s infinite;
+  }
+}
+
+@keyframes lg-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+}
+
+@keyframes lg-slide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes lg-unfurl {
+  from {
+    opacity: 0;
+    transform: scale(0.2) rotate(-25deg);
+  }
+}
+
+@keyframes lg-sway {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-2.5deg);
+  }
+}
+
+@keyframes lg-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes lg-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes lg-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes lg-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes lg-orbit {
+  from {
+    opacity: 0;
+    transform: rotate(-70deg);
+  }
+}
+
+@keyframes lg-sweep {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes lg-flow {
+  from {
+    transform: translateX(-6px) skewX(-2deg);
+  }
+  to {
+    transform: translateX(6px) skewX(2deg);
+  }
+}
+
+@keyframes lg-sheen {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  8% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(1100px);
+  }
+  31%,
+  100% {
+    opacity: 0;
+    transform: translateX(1100px);
+  }
+}

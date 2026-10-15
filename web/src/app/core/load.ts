@@ -40,13 +40,31 @@ export function loadable<T>(factory: () => Observable<T>, isEmpty: (v: T) => boo
   return { status, data, error, reload };
 }
 
-/** Polite live region for status announcements (screen readers). */
+export interface Toast {
+  id: number;
+  text: string;
+  kind: 'info' | 'success' | 'error';
+}
+
+/**
+ * Status announcements: spoken through the polite live region (screen readers)
+ * and shown as a dismissible toast (everyone else).
+ */
 @Injectable({ providedIn: 'root' })
 export class Announcer {
   readonly message = signal('');
+  readonly toasts = signal<Toast[]>([]);
+  private next = 1;
 
-  say(text: string): void {
+  say(text: string, kind: Toast['kind'] = 'info'): void {
     this.message.set('');
     queueMicrotask(() => this.message.set(text));
+    const id = this.next++;
+    this.toasts.update((t) => [...t.slice(-3), { id, text, kind }]);
+    setTimeout(() => this.dismiss(id), 5000);
+  }
+
+  dismiss(id: number): void {
+    this.toasts.update((t) => t.filter((x) => x.id !== id));
   }
 }

@@ -9,9 +9,13 @@
 ## Where the implementation lives
 
 - [web/src/app/shared/state-view.ts](../web/src/app/shared/state-view.ts)
+- [web/src/app/shared/widgets.ts](../web/src/app/shared/widgets.ts)
+- [web/src/app/shared/palette.ts](../web/src/app/shared/palette.ts)
 - [web/src/app/core/i18n.ts](../web/src/app/core/i18n.ts)
 - [web/src/app/core/auth.ts](../web/src/app/core/auth.ts)
 - [web/src/app/core/load.ts](../web/src/app/core/load.ts)
+- [web/src/app/core/catalog-store.ts](../web/src/app/core/catalog-store.ts)
+- [web/src/app/core/taxonomy.ts](../web/src/app/core/taxonomy.ts)
 
 ## Register coverage
 

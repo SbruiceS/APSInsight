@@ -83,6 +83,12 @@ paths:
       summary: The full traceability matrix with honest status per feature.
       responses:
         "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/status:
+    get:
+      tags: [register]
+      summary: Honest completion metrics; feature counts per status, overall and per domain.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
   /api/v1/overview:
     get:
       tags: [records]

@@ -1,0 +1,483 @@
+// Page-specific layouts.
+
+// ----- hero (overview) -----
+
+.hero {
+  position: relative;
+  min-height: 13rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero apsi-landscape {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-text {
+  position: relative;
+  margin: 1rem;
+  padding: 1rem 1.2rem;
+  max-width: 38rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow);
+}
+
+.hero-text h1 {
+  margin-bottom: 0.25rem;
+}
+
+.hero-text p:last-child {
+  margin: 0;
+}
+
+// ----- login -----
+
+.login {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.login-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: var(--sky-top);
+}
+
+// Keep the farm scene at its natural proportions along the bottom edge.
+.login-hero apsi-landscape {
+  position: absolute;
+  inset: auto 0 0;
+}
+
+.login-hero .landscape {
+  height: auto;
+  aspect-ratio: 640 / 220;
+}
+
+.login-hero-text {
+  position: relative;
+  margin: 2rem;
+  padding: 1.4rem 1.6rem;
+  max-width: 34rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-lift);
+}
+
+.login-hero-text h2 {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.75rem);
+  display: block;
+}
+
+.login-points {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-points li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.login-points .apsi-icon {
+  color: var(--accent);
+}
+
+.login-panel {
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+}
+
+.login-card {
+  width: min(30rem, 100%);
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+}
+
+.login-logo {
+  margin: -0.5rem -0.5rem 1.25rem;
+}
+
+.login-card button.primary {
+  width: 100%;
+}
+
+.login-locale {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 860px) {
+  .login {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .login-hero {
+    min-height: 18rem;
+  }
+
+  .login-hero-text {
+    margin: 1rem;
+  }
+}
+
+// ----- quick actions -----
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+
+.action-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'icon title'
+    'icon hint';
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--fg);
+  text-decoration: none;
+  transition:
+    transform 0.18s,
+    box-shadow 0.18s,
+    border-color 0.18s;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lift);
+  color: var(--fg);
+}
+
+.action-card .apsi-icon {
+  grid-area: icon;
+  color: var(--accent);
+}
+
+.action-card strong {
+  grid-area: title;
+}
+
+.action-card span {
+  grid-area: hint;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+// ----- domain and entity cards -----
+
+.domain-grid,
+.entity-grid,
+.integration-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+  gap: 0.85rem;
+}
+
+.domain-card,
+.entity-card,
+.integration-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.18s,
+    box-shadow 0.18s,
+    border-color 0.18s;
+  min-width: 0;
+}
+
+.domain-card:hover,
+.entity-card:hover,
+.integration-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+  border-color: color-mix(in srgb, var(--tone, var(--accent)) 50%, var(--line));
+}
+
+.domain-card {
+  border-top: 4px solid var(--tone, var(--leaf));
+  overflow: hidden;
+}
+
+.domain-card-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'icon title'
+    'icon meta'
+    'count count';
+  gap: 0.15rem 0.75rem;
+  padding: 0.9rem 1rem 0.6rem;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.domain-card-main:hover {
+  color: var(--fg);
+}
+
+.domain-icon {
+  grid-area: icon;
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 12px;
+  background: var(--tone-bg, var(--leaf-bg));
+  color: var(--tone, var(--leaf));
+}
+
+.domain-title {
+  grid-area: title;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.domain-meta {
+  grid-area: meta;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.domain-count {
+  grid-area: count;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.domain-count strong {
+  color: var(--fg);
+  font-size: 1.05rem;
+}
+
+.mini-links {
+  list-style: none;
+  margin: auto 0 0;
+  padding: 0.55rem 1rem 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  border-top: 1px dashed var(--line);
+}
+
+.mini-links a {
+  font-size: 0.78rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.mini-links a:hover {
+  border-color: var(--tone, var(--accent));
+}
+
+.entity-card,
+.integration-card {
+  padding: 0.95rem 1rem;
+  gap: 0.15rem;
+}
+
+.entity-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.3rem;
+}
+
+.entity-head > a {
+  flex: 1;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.entity-head > .apsi-icon {
+  color: var(--tone, var(--leaf));
+}
+
+.entity-head h2 {
+  margin: 0;
+}
+
+.entity-total {
+  margin: 0;
+  color: var(--muted);
+}
+
+.entity-total strong {
+  font-size: 1.3rem;
+  color: var(--fg);
+}
+
+.entity-actions {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  justify-content: space-between;
+}
+
+.entity-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.integration-card[data-state='unavailable'] {
+  background: linear-gradient(160deg, var(--surface), var(--surface-2));
+}
+
+.avail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// ----- records analysis -----
+
+.analysis {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--line);
+}
+
+// ----- science lab -----
+
+.lab {
+  display: grid;
+  grid-template-columns: minmax(15rem, 21rem) minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.lab-list {
+  position: sticky;
+  top: 4.5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+}
+
+.lab-family {
+  margin: 0.85rem 0 0.3rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.lab-family .apsi-icon {
+  color: var(--accent);
+}
+
+.fn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.fn-button {
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  border-radius: var(--radius-sm);
+  border-color: transparent;
+  background: transparent;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+.fn-button code {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-weight: 700;
+}
+
+.fn-button[aria-pressed='true'] {
+  background: var(--leaf-bg);
+  border-color: var(--accent);
+}
+
+.sig {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.sig dt {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sig dd {
+  margin: 0;
+}
+
+.result-big {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 860px) {
+  .lab {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lab-list {
+    position: static;
+    max-height: 22rem;
+  }
+}

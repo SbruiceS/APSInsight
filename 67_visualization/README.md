@@ -9,8 +9,10 @@
 ## Where the implementation lives
 
 - [crates/apsi-core/src/dashboard.rs](../crates/apsi-core/src/dashboard.rs)
+- [web/src/app/shared/widgets.ts](../web/src/app/shared/widgets.ts)
 - [web/src/app/pages/overview.ts](../web/src/app/pages/overview.ts)
 - [web/src/app/pages/domain.ts](../web/src/app/pages/domain.ts)
+- [web/src/app/pages/status.ts](../web/src/app/pages/status.ts)
 
 ## Register coverage
 
@@ -22,4 +24,4 @@ Feature counts by honest status, from [docs/traceability.csv](../docs/traceabili
 
 ## Known gaps
 
-No chart library or map styles.
+Charts are hand-built SVG (donut, stacked bars, meters); there is no chart library, time-series plotting or map styling.

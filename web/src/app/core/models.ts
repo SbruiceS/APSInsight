@@ -213,3 +213,37 @@ export interface NewRecord {
   tags?: string[];
   lifecycle?: Lifecycle;
 }
+
+export interface StatusCount {
+  status: FeatureStatus;
+  label: string;
+  features: number;
+}
+
+export interface StatusSummary {
+  total: number;
+  by_status: StatusCount[];
+  domains: { domain: string; name: string; counts: Record<FeatureStatus, number> }[];
+}
+
+export interface ComputeFunction {
+  name: string;
+  description: string;
+  input: string;
+  output: string;
+}
+
+export interface IntegrationReport {
+  product: string;
+  product_name: string;
+  contract_version: string;
+  availability: { state: 'available'; provider_version: string; offered_contract: string } | { state: 'unavailable'; reason: string };
+  operations: string[];
+  optional: boolean;
+}
+
+export interface AuditVerification {
+  valid: boolean;
+  events?: number;
+  broken_at?: number;
+}

@@ -130,6 +130,7 @@ pub fn routes() -> Router<AppState> {
         .route("/api/v1/features", get(features_h))
         .route("/api/v1/features/{id}", get(feature_h))
         .route("/api/v1/traceability", get(traceability_h))
+        .route("/api/v1/status", get(status_h))
         .route("/api/v1/overview", get(overview))
         .route("/api/v1/domains/{domain}/dashboard", get(dashboard))
         .route("/api/v1/domains/{domain}/search", post(search))
@@ -228,6 +229,28 @@ async fn feature_h(Auth(_): Auth, Path(id): Path<String>) -> ApiResult {
 
 async fn traceability_h(Auth(_): Auth) -> ApiResult {
     Ok(([(header::CONTENT_TYPE, "text/csv; charset=utf-8")], traceability::csv()).into_response())
+}
+
+/// Honest completion metrics: feature counts per status, overall and per domain.
+async fn status_h(Auth(_): Auth) -> ApiResult {
+    let rows = traceability::rows();
+    let statuses = traceability::Status::ALL;
+    let by_status: Vec<Value> = traceability::status_counts().into_iter().map(|(s, n)| json!({ "status": s, "label": s.label(), "features": n })).collect();
+    let domains: Vec<Value> = catalog()
+        .domains
+        .iter()
+        .map(|d| {
+            let counts: serde_json::Map<String, Value> = statuses
+                .iter()
+                .map(|st| {
+                    let key = serde_json::to_value(st).ok().and_then(|v| v.as_str().map(str::to_string)).unwrap_or_default();
+                    (key, json!(rows.iter().filter(|r| r.domain_slug == d.slug && r.status == *st).count()))
+                })
+                .collect();
+            json!({ "domain": d.slug, "name": d.name, "counts": counts })
+        })
+        .collect();
+    ok(json!({ "total": rows.len(), "by_status": by_status, "domains": domains }))
 }
 
 async fn overview(State(app): State<AppState>, Auth(p): Auth) -> ApiResult {

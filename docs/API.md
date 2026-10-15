@@ -77,6 +77,7 @@ Throughout, `K` = `/api/v1/domains/{domain}/entities/{entity}`.
 | GET / POST | `/api/v1/workflows` | list / register |
 | POST | `/api/v1/workflows/{id}/runs?version=` | run |
 | GET | `/api/v1/workflow-runs` | runs |
+| GET | `/api/v1/status` | honest completion metrics: feature counts per traceability status, overall and per domain |
 | GET | `/api/v1/integrations` | capability discovery for planned ASPF products (all optional; unavailable in this build) |
 | GET | `/api/v1/compute` | science functions |
 | POST | `/api/v1/compute/{function}` | run one (JSON in, JSON out) |

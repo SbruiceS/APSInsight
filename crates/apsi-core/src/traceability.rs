@@ -558,9 +558,13 @@ pub const DOMAIN_SCOPES: &[DomainScope] = &[
     DomainScope {
         domain: "background-job-execution",
         status: Status::SpecifiedOnly,
-        note: "Workflows run synchronously inside the request; there is no queue, lease, cancellation or stuck-job detection.",
+        note: "apsi-jobs provides a tested, deterministic tenant-safe lifecycle core (leases, cancellation, retry and expired-lease recovery), but has no durable adapter, API route or deployed worker; workflows still run synchronously.",
     },
-    DomainScope { domain: "scheduling-and-resource-management", status: Status::SpecifiedOnly, note: "No scheduler, quotas or admission control." },
+    DomainScope {
+        domain: "scheduling-and-resource-management",
+        status: Status::SpecifiedOnly,
+        note: "The lifecycle core supports scheduled availability and retry backoff, but there is no scheduler, quota or admission-control runtime.",
+    },
     DomainScope { domain: "plugin-and-extension-system", status: Status::SpecifiedOnly, note: "No plugin loader or sandbox." },
     DomainScope {
         domain: "multi-tenant-billing-and-quotas",

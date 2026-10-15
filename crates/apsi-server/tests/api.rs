@@ -447,3 +447,24 @@ fn openapi_documents_every_route() {
         assert!(routes.iter().any(|(r, _)| r == p), "openapi documents {p}, which the router does not serve");
     }
 }
+
+#[tokio::test]
+async fn api_status_reports_honest_completion_metrics() {
+    let app = app();
+    assert_eq!(call(&app, Method::GET, "/api/v1/status", None, None).await.status, StatusCode::UNAUTHORIZED);
+    let r = call(&app, Method::GET, "/api/v1/status", Some(VIEWER), None).await;
+    assert_eq!(r.status, StatusCode::OK);
+    let d = r.data();
+    assert_eq!(d["total"], 3100);
+    let by: Vec<&Value> = d["by_status"].as_array().unwrap().iter().collect();
+    assert_eq!(by.len(), 4);
+    assert_eq!(by.iter().map(|s| s["features"].as_u64().unwrap()).sum::<u64>(), 3100);
+    let domains = d["domains"].as_array().unwrap();
+    assert_eq!(domains.len(), 100);
+    for dom in domains {
+        let n: u64 = dom["counts"].as_object().unwrap().values().map(|v| v.as_u64().unwrap()).sum();
+        assert_eq!(n, 31, "{}", dom["domain"]);
+    }
+    let agriql = domains.iter().find(|x| x["domain"] == "future-agriql-integration-contract").unwrap();
+    assert_eq!(agriql["counts"]["blocked-external"], 21, "a planned product is never reported as working");
+}

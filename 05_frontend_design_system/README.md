@@ -8,7 +8,12 @@
 
 ## Where the implementation lives
 
-- [web/src/styles.css](../web/src/styles.css)
+- [web/src/styles.scss](../web/src/styles.scss)
+- [web/src/styles](../web/src/styles)
+- [web/src/app/shared/icon.ts](../web/src/app/shared/icon.ts)
+- [web/src/app/shared/icons.ts](../web/src/app/shared/icons.ts)
+- [web/src/app/shared/logo.ts](../web/src/app/shared/logo.ts)
+- [web/src/app/core/theme.ts](../web/src/app/core/theme.ts)
 
 ## Artifacts in this directory
 
@@ -24,4 +29,4 @@ Feature counts by honest status, from [docs/traceability.csv](../docs/traceabili
 
 ## Known gaps
 
-Design tokens live in one stylesheet; there is no component library.
+No standalone component library or visual regression tests; icons and tokens are verified by unit tests and scripts/check-ui.mjs only.

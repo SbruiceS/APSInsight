@@ -1,0 +1,119 @@
+// Decorative animated farm scene (shared/widgets.ts Landscape).
+
+.landscape {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ls-sky-top {
+  stop-color: var(--sky-top);
+}
+
+.ls-sky-bottom {
+  stop-color: var(--sky-bottom);
+}
+
+.ls-sun circle {
+  fill: var(--sun);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ls-glow 6s ease-in-out infinite;
+}
+
+.ls-cloud path {
+  fill: var(--cloud);
+  opacity: 0.9;
+}
+
+.ls-cloud-a {
+  animation: ls-drift 46s linear infinite;
+}
+
+.ls-cloud-b {
+  animation: ls-drift 64s linear infinite;
+  animation-delay: -20s;
+}
+
+.ls-hill-far {
+  fill: var(--hill-far);
+}
+
+.ls-hill {
+  fill: var(--hill);
+}
+
+.ls-crop path {
+  fill: none;
+  stroke: var(--crop);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.ls-crop path:last-child {
+  fill: var(--crop);
+  stroke-width: 1;
+}
+
+.ls-crop {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: ls-sway 3.2s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+.ls-tractor {
+  animation: ls-cross 34s linear infinite;
+}
+
+.ls-tractor path {
+  fill: var(--tractor);
+}
+
+.ls-wheel {
+  fill: var(--wheel);
+  stroke: var(--sun);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: icon-roll 1.2s linear infinite;
+}
+
+@keyframes ls-glow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ls-drift {
+  from {
+    transform: translateX(-180px);
+  }
+  to {
+    transform: translateX(680px);
+  }
+}
+
+@keyframes ls-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes ls-cross {
+  from {
+    transform: translate(-70px, 172px);
+  }
+  to {
+    transform: translate(700px, 172px);
+  }
+}
