@@ -1,0 +1,60 @@
+{
+  "title": "APSInsight overview",
+  "uid": "apsinsight-overview",
+  "schemaVersion": 39,
+  "tags": ["apsinsight"],
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": {
+    "list": [{ "name": "datasource", "type": "datasource", "query": "prometheus" }]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Up",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "up{job=\"apsinsight\"}" }]
+    },
+    {
+      "id": 2,
+      "title": "Operations per second by outcome",
+      "type": "timeseries",
+      "gridPos": { "x": 4, "y": 0, "w": 20, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "sum by (outcome) (rate(apsi_operations_total[5m]))", "legendFormat": "{{outcome}}" }]
+    },
+    {
+      "id": 3,
+      "title": "Server-side failure ratio (SLO 0.1%)",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "sum(rate(apsi_operations_total{outcome=~\"storage_unavailable|internal\"}[15m])) / clamp_min(sum(rate(apsi_operations_total[15m])), 1e-9)" }]
+    },
+    {
+      "id": 4,
+      "title": "Mean latency by operation (s)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "rate(apsi_operation_seconds_sum[5m]) / clamp_min(rate(apsi_operation_seconds_count[5m]), 1e-9)", "legendFormat": "{{operation}}" }]
+    },
+    {
+      "id": 5,
+      "title": "Top domains by write volume",
+      "type": "bargauge",
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "topk(10, sum by (domain) (rate(apsi_operations_total{operation=~\"record.create|record.update|record.transition|bulk.import\"}[1h])))", "legendFormat": "{{domain}}" }]
+    },
+    {
+      "id": 6,
+      "title": "Denied and rate-limited requests",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "targets": [{ "expr": "sum by (outcome) (rate(apsi_operations_total{outcome=~\"forbidden|unauthenticated|rate_limited\"}[5m]))", "legendFormat": "{{outcome}}" }]
+    }
+  ]
+}

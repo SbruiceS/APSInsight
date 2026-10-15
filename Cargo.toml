@@ -1,0 +1,16 @@
+[workspace]
+resolver = "3"
+members = ["crates/apsi-core", "crates/apsi-science", "crates/apsi-contracts", "crates/apsi-server", "crates/apsi-cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+rust-version = "1.88"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+warnings = "deny"
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -1 }

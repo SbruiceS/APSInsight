@@ -1,0 +1,55 @@
+# Prometheus alerting rules for apsi-server. They use only the metrics the server exports:
+#   apsi_operations_total{operation,domain,outcome}, apsi_operation_seconds_{count,sum}{operation}
+# plus Prometheus' own `up`. Scrape /metrics with an auditor token (bearer_token_file).
+# These rules are definitions; they have not been loaded into a running Prometheus in CI.
+groups:
+  - name: apsinsight.service
+    rules:
+      - alert: ApsInsightDown
+        expr: up{job="apsinsight"} == 0
+        for: 2m
+        labels: { severity: page }
+        annotations:
+          summary: apsi-server is not answering scrapes
+          runbook: 20_backend_observability/runbooks/incident-response.md
+      - alert: ApsInsightStorageFailures
+        expr: sum(rate(apsi_operations_total{outcome="storage_unavailable"}[5m])) > 0
+        for: 5m
+        labels: { severity: page }
+        annotations:
+          summary: Commits are failing with storage_unavailable (disk full or I/O error); writes are being rolled back
+          runbook: 20_backend_observability/runbooks/incident-response.md
+      - alert: ApsInsightInternalErrors
+        expr: sum(rate(apsi_operations_total{outcome="internal"}[10m])) > 0
+        for: 10m
+        labels: { severity: ticket }
+        annotations:
+          summary: Internal errors are occurring
+      - alert: ApsInsightHighFailureRatio
+        expr: |
+          sum(rate(apsi_operations_total{outcome=~"storage_unavailable|internal"}[15m]))
+            / clamp_min(sum(rate(apsi_operations_total[15m])), 1e-9) > 0.001
+        for: 15m
+        labels: { severity: ticket }
+        annotations:
+          summary: Server-side failure ratio above the 99.9% success SLO
+      - alert: ApsInsightSlowOperations
+        expr: |
+          sum(rate(apsi_operation_seconds_sum[10m])) / clamp_min(sum(rate(apsi_operation_seconds_count[10m])), 1e-9) > 0.05
+        for: 15m
+        labels: { severity: ticket }
+        annotations:
+          summary: Mean engine operation latency above 50 ms (resource saturation or large scans)
+      - alert: ApsInsightAccessDeniedSpike
+        expr: sum(rate(apsi_operations_total{outcome=~"forbidden|unauthenticated"}[5m])) > 1
+        for: 10m
+        labels: { severity: ticket }
+        annotations:
+          summary: Sustained denied requests; possible credential misuse or misconfigured client
+          runbook: 20_backend_observability/runbooks/incident-response.md
+      - alert: ApsInsightRateLimiting
+        expr: sum(rate(apsi_operations_total{outcome="rate_limited"}[5m])) > 0.5
+        for: 10m
+        labels: { severity: info }
+        annotations:
+          summary: Clients are being rate limited

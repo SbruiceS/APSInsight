@@ -1,0 +1,4094 @@
+{
+  "register": "APSInsight_Feature_Register.json",
+  "features": 3100,
+  "capabilities": [
+    {
+      "index": 1,
+      "slug": "registration-and-identity",
+      "title": "Registration and identity",
+      "template": "Implement validated registration and stable identifiers for {E}; preserve source identity and create auditable records."
+    },
+    {
+      "index": 2,
+      "slug": "schema-contract",
+      "title": "Schema contract",
+      "template": "Define versioned schemas for {E}, including required fields, optional fields, validation errors and compatibility rules."
+    },
+    {
+      "index": 3,
+      "slug": "metadata-model",
+      "title": "Metadata model",
+      "template": "Capture metadata for {E}, including provenance, ownership, timestamps, units or domain-specific attributes where applicable."
+    },
+    {
+      "index": 4,
+      "slug": "validation-rules",
+      "title": "Validation rules",
+      "template": "Provide configurable validation rules for {E}, with severity levels, explainable failures and machine-readable reports."
+    },
+    {
+      "index": 5,
+      "slug": "crud-and-lifecycle",
+      "title": "CRUD and lifecycle",
+      "template": "Support controlled create, read, update and archive operations for {E}, with lifecycle constraints and audit records."
+    },
+    {
+      "index": 6,
+      "slug": "search-and-filtering",
+      "title": "Search and filtering",
+      "template": "Enable indexed search and filtering over {E}, including exact matches, ranges, facets and pagination."
+    },
+    {
+      "index": 7,
+      "slug": "bulk-operations",
+      "title": "Bulk operations",
+      "template": "Support safe bulk import, update and export of {E}, with dry-run validation, partial-failure reporting and idempotency."
+    },
+    {
+      "index": 8,
+      "slug": "versioning",
+      "title": "Versioning",
+      "template": "Version {E} and expose change history, comparisons, compatibility metadata and safe rollback where rollback is meaningful."
+    },
+    {
+      "index": 9,
+      "slug": "access-control",
+      "title": "Access control",
+      "template": "Enforce tenant-aware permissions for {E} at API and service boundaries; test both allowed and denied access."
+    },
+    {
+      "index": 10,
+      "slug": "provenance",
+      "title": "Provenance",
+      "template": "Record source references, transformation history and actor or service identity for changes involving {E}."
+    },
+    {
+      "index": 11,
+      "slug": "quality-indicators",
+      "title": "Quality indicators",
+      "template": "Calculate appropriate quality indicators for {E}; document formulas, missing-data behavior and limitations."
+    },
+    {
+      "index": 12,
+      "slug": "observability",
+      "title": "Observability",
+      "template": "Emit structured logs, metrics and traces for operations on {E}, avoiding secrets and sensitive payloads."
+    },
+    {
+      "index": 13,
+      "slug": "failure-handling",
+      "title": "Failure handling",
+      "template": "Define typed errors and recovery behavior for failures involving {E}; distinguish retryable from permanent failures."
+    },
+    {
+      "index": 14,
+      "slug": "concurrency-control",
+      "title": "Concurrency control",
+      "template": "Protect concurrent operations on {E} using transactions, optimistic concurrency or domain-appropriate locking."
+    },
+    {
+      "index": 15,
+      "slug": "retention-policy",
+      "title": "Retention policy",
+      "template": "Apply configurable retention and archival rules to {E}, with explicit legal-hold and deletion semantics where required."
+    },
+    {
+      "index": 16,
+      "slug": "export-contract",
+      "title": "Export contract",
+      "template": "Provide documented exports for {E}, including schema version, encoding, timestamps and provenance where appropriate."
+    },
+    {
+      "index": 17,
+      "slug": "import-contract",
+      "title": "Import contract",
+      "template": "Provide documented import mappings for {E}, with previews, validation summaries and recoverable error reports."
+    },
+    {
+      "index": 18,
+      "slug": "api-endpoint",
+      "title": "API endpoint",
+      "template": "Expose versioned API operations for {E} with request limits, authentication, authorization and consistent response envelopes."
+    },
+    {
+      "index": 19,
+      "slug": "cli-support",
+      "title": "CLI support",
+      "template": "Provide automation-friendly CLI operations for {E}, with structured output, stable exit codes and noninteractive support."
+    },
+    {
+      "index": 20,
+      "slug": "ui-workflow",
+      "title": "UI workflow",
+      "template": "Provide an Angular workflow for users to inspect and manage {E}, including empty, loading, error and permission-denied states."
+    },
+    {
+      "index": 21,
+      "slug": "dashboard-visibility",
+      "title": "Dashboard visibility",
+      "template": "Expose meaningful status and summary metrics for {E}, with drill-down to supporting records and definitions."
+    },
+    {
+      "index": 22,
+      "slug": "notification-rules",
+      "title": "Notification rules",
+      "template": "Allow authorized users to define relevant notifications for changes or conditions involving {E}, with deduplication and audit."
+    },
+    {
+      "index": 23,
+      "slug": "workflow-integration",
+      "title": "Workflow integration",
+      "template": "Allow {E} to participate in reproducible jobs and workflows through typed input/output contracts."
+    },
+    {
+      "index": 24,
+      "slug": "test-coverage",
+      "title": "Test coverage",
+      "template": "Create unit, integration, contract and property-based tests for {E}; include boundary cases and malformed inputs."
+    },
+    {
+      "index": 25,
+      "slug": "security-review",
+      "title": "Security review",
+      "template": "Threat-model operations involving {E}; validate injection resistance, access boundaries, abuse limits and sensitive-data handling."
+    },
+    {
+      "index": 26,
+      "slug": "performance-target",
+      "title": "Performance target",
+      "template": "Benchmark representative operations on {E}, define workload assumptions and prevent unmeasured performance claims."
+    },
+    {
+      "index": 27,
+      "slug": "documentation",
+      "title": "Documentation",
+      "template": "Document the purpose, schema, API, permissions, failure modes and operational behavior of {E}."
+    },
+    {
+      "index": 28,
+      "slug": "interoperability",
+      "title": "Interoperability",
+      "template": "Define mappings between {E} and relevant external formats or standards without silently losing semantic information."
+    },
+    {
+      "index": 29,
+      "slug": "accessibility-and-localization",
+      "title": "Accessibility and localization",
+      "template": "Ensure user-facing operations for {E} support keyboard access, accessible status messages and localization-ready labels."
+    },
+    {
+      "index": 30,
+      "slug": "migration-support",
+      "title": "Migration support",
+      "template": "Provide safe migrations for schema or behavior changes affecting {E}, including compatibility checks and rollback planning."
+    },
+    {
+      "index": 31,
+      "slug": "acceptance-evidence",
+      "title": "Acceptance evidence",
+      "template": "Define measurable acceptance tests for {E}, including expected outputs, failure cases and reproducibility requirements."
+    }
+  ],
+  "domains": [
+    {
+      "index": 1,
+      "slug": "platform-governance-and-configuration",
+      "name": "Platform governance and configuration",
+      "entities": [
+        {
+          "slug": "tenants",
+          "name": "tenants"
+        },
+        {
+          "slug": "workspaces",
+          "name": "workspaces"
+        },
+        {
+          "slug": "projects",
+          "name": "projects"
+        },
+        {
+          "slug": "environments",
+          "name": "environments"
+        },
+        {
+          "slug": "settings",
+          "name": "settings"
+        },
+        {
+          "slug": "feature-flags",
+          "name": "feature flags"
+        },
+        {
+          "slug": "platform-policies",
+          "name": "platform policies"
+        },
+        {
+          "slug": "service-ownership",
+          "name": "service ownership"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "slug": "identity-and-access-management",
+      "name": "Identity and access management",
+      "entities": [
+        {
+          "slug": "users",
+          "name": "users"
+        },
+        {
+          "slug": "service-accounts",
+          "name": "service accounts"
+        },
+        {
+          "slug": "groups",
+          "name": "groups"
+        },
+        {
+          "slug": "roles",
+          "name": "roles"
+        },
+        {
+          "slug": "permissions",
+          "name": "permissions"
+        },
+        {
+          "slug": "sessions",
+          "name": "sessions"
+        },
+        {
+          "slug": "credentials",
+          "name": "credentials"
+        },
+        {
+          "slug": "identity-providers",
+          "name": "identity providers"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "slug": "organization-and-tenancy",
+      "name": "Organization and tenancy",
+      "entities": [
+        {
+          "slug": "organizations",
+          "name": "organizations"
+        },
+        {
+          "slug": "subsidiaries",
+          "name": "subsidiaries"
+        },
+        {
+          "slug": "teams",
+          "name": "teams"
+        },
+        {
+          "slug": "memberships",
+          "name": "memberships"
+        },
+        {
+          "slug": "invitations",
+          "name": "invitations"
+        },
+        {
+          "slug": "tenant-quotas",
+          "name": "tenant quotas"
+        },
+        {
+          "slug": "tenant-settings",
+          "name": "tenant settings"
+        },
+        {
+          "slug": "tenant-isolation",
+          "name": "tenant isolation"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "slug": "authentication",
+      "name": "Authentication",
+      "entities": [
+        {
+          "slug": "password-authentication",
+          "name": "password authentication"
+        },
+        {
+          "slug": "passkeys",
+          "name": "passkeys"
+        },
+        {
+          "slug": "mfa",
+          "name": "MFA"
+        },
+        {
+          "slug": "oidc",
+          "name": "OIDC"
+        },
+        {
+          "slug": "saml",
+          "name": "SAML"
+        },
+        {
+          "slug": "token-issuance",
+          "name": "token issuance"
+        },
+        {
+          "slug": "session-renewal",
+          "name": "session renewal"
+        },
+        {
+          "slug": "account-recovery",
+          "name": "account recovery"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "slug": "authorization-and-policy",
+      "name": "Authorization and policy",
+      "entities": [
+        {
+          "slug": "rbac",
+          "name": "RBAC"
+        },
+        {
+          "slug": "abac",
+          "name": "ABAC"
+        },
+        {
+          "slug": "resource-scopes",
+          "name": "resource scopes"
+        },
+        {
+          "slug": "policy-evaluation",
+          "name": "policy evaluation"
+        },
+        {
+          "slug": "deny-rules",
+          "name": "deny rules"
+        },
+        {
+          "slug": "delegated-access",
+          "name": "delegated access"
+        },
+        {
+          "slug": "policy-simulation",
+          "name": "policy simulation"
+        },
+        {
+          "slug": "authorization-audit",
+          "name": "authorization audit"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "slug": "api-gateway-and-contracts",
+      "name": "API gateway and contracts",
+      "entities": [
+        {
+          "slug": "rest-endpoints",
+          "name": "REST endpoints"
+        },
+        {
+          "slug": "openapi-schemas",
+          "name": "OpenAPI schemas"
+        },
+        {
+          "slug": "request-validation",
+          "name": "request validation"
+        },
+        {
+          "slug": "response-schemas",
+          "name": "response schemas"
+        },
+        {
+          "slug": "api-versioning",
+          "name": "API versioning"
+        },
+        {
+          "slug": "pagination",
+          "name": "pagination"
+        },
+        {
+          "slug": "filtering",
+          "name": "filtering"
+        },
+        {
+          "slug": "idempotency",
+          "name": "idempotency"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "slug": "realtime-communications",
+      "name": "Realtime communications",
+      "entities": [
+        {
+          "slug": "websocket-channels",
+          "name": "WebSocket channels"
+        },
+        {
+          "slug": "subscriptions",
+          "name": "subscriptions"
+        },
+        {
+          "slug": "event-delivery",
+          "name": "event delivery"
+        },
+        {
+          "slug": "reconnect-handling",
+          "name": "reconnect handling"
+        },
+        {
+          "slug": "heartbeat",
+          "name": "heartbeat"
+        },
+        {
+          "slug": "backpressure",
+          "name": "backpressure"
+        },
+        {
+          "slug": "delivery-receipts",
+          "name": "delivery receipts"
+        },
+        {
+          "slug": "channel-authorization",
+          "name": "channel authorization"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "slug": "agricultural-data-catalogue",
+      "name": "Agricultural data catalogue",
+      "entities": [
+        {
+          "slug": "dataset-registration",
+          "name": "dataset registration"
+        },
+        {
+          "slug": "discovery",
+          "name": "discovery"
+        },
+        {
+          "slug": "classification",
+          "name": "classification"
+        },
+        {
+          "slug": "metadata",
+          "name": "metadata"
+        },
+        {
+          "slug": "ownership",
+          "name": "ownership"
+        },
+        {
+          "slug": "licensing",
+          "name": "licensing"
+        },
+        {
+          "slug": "tags",
+          "name": "tags"
+        },
+        {
+          "slug": "dataset-relationships",
+          "name": "dataset relationships"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "slug": "data-ingestion",
+      "name": "Data ingestion",
+      "entities": [
+        {
+          "slug": "csv-ingestion",
+          "name": "CSV ingestion"
+        },
+        {
+          "slug": "excel-ingestion",
+          "name": "Excel ingestion"
+        },
+        {
+          "slug": "json-ingestion",
+          "name": "JSON ingestion"
+        },
+        {
+          "slug": "parquet-ingestion",
+          "name": "Parquet ingestion"
+        },
+        {
+          "slug": "database-connectors",
+          "name": "database connectors"
+        },
+        {
+          "slug": "api-imports",
+          "name": "API imports"
+        },
+        {
+          "slug": "batch-uploads",
+          "name": "batch uploads"
+        },
+        {
+          "slug": "streaming-ingestion",
+          "name": "streaming ingestion"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "slug": "data-validation-and-quality",
+      "name": "Data validation and quality",
+      "entities": [
+        {
+          "slug": "schema-validation",
+          "name": "schema validation"
+        },
+        {
+          "slug": "range-checks",
+          "name": "range checks"
+        },
+        {
+          "slug": "null-analysis",
+          "name": "null analysis"
+        },
+        {
+          "slug": "duplicate-detection",
+          "name": "duplicate detection"
+        },
+        {
+          "slug": "outlier-flags",
+          "name": "outlier flags"
+        },
+        {
+          "slug": "unit-checks",
+          "name": "unit checks"
+        },
+        {
+          "slug": "referential-integrity",
+          "name": "referential integrity"
+        },
+        {
+          "slug": "quality-scoring",
+          "name": "quality scoring"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "slug": "data-transformation",
+      "name": "Data transformation",
+      "entities": [
+        {
+          "slug": "type-casting",
+          "name": "type casting"
+        },
+        {
+          "slug": "normalization",
+          "name": "normalization"
+        },
+        {
+          "slug": "deduplication",
+          "name": "deduplication"
+        },
+        {
+          "slug": "joins",
+          "name": "joins"
+        },
+        {
+          "slug": "aggregation",
+          "name": "aggregation"
+        },
+        {
+          "slug": "filtering",
+          "name": "filtering"
+        },
+        {
+          "slug": "enrichment",
+          "name": "enrichment"
+        },
+        {
+          "slug": "transformation-versioning",
+          "name": "transformation versioning"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "slug": "data-lineage-and-provenance",
+      "name": "Data lineage and provenance",
+      "entities": [
+        {
+          "slug": "source-lineage",
+          "name": "source lineage"
+        },
+        {
+          "slug": "transformation-lineage",
+          "name": "transformation lineage"
+        },
+        {
+          "slug": "model-lineage",
+          "name": "model lineage"
+        },
+        {
+          "slug": "parameter-lineage",
+          "name": "parameter lineage"
+        },
+        {
+          "slug": "artifact-lineage",
+          "name": "artifact lineage"
+        },
+        {
+          "slug": "execution-lineage",
+          "name": "execution lineage"
+        },
+        {
+          "slug": "provenance-queries",
+          "name": "provenance queries"
+        },
+        {
+          "slug": "lineage-export",
+          "name": "lineage export"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "slug": "data-versioning-and-reproducibility",
+      "name": "Data versioning and reproducibility",
+      "entities": [
+        {
+          "slug": "dataset-snapshots",
+          "name": "dataset snapshots"
+        },
+        {
+          "slug": "immutable-versions",
+          "name": "immutable versions"
+        },
+        {
+          "slug": "content-hashes",
+          "name": "content hashes"
+        },
+        {
+          "slug": "change-diffs",
+          "name": "change diffs"
+        },
+        {
+          "slug": "reproducible-inputs",
+          "name": "reproducible inputs"
+        },
+        {
+          "slug": "version-pinning",
+          "name": "version pinning"
+        },
+        {
+          "slug": "rollback",
+          "name": "rollback"
+        },
+        {
+          "slug": "retention",
+          "name": "retention"
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "slug": "data-access-and-governance",
+      "name": "Data access and governance",
+      "entities": [
+        {
+          "slug": "classification",
+          "name": "classification"
+        },
+        {
+          "slug": "purpose-restrictions",
+          "name": "purpose restrictions"
+        },
+        {
+          "slug": "licence-checks",
+          "name": "licence checks"
+        },
+        {
+          "slug": "retention-rules",
+          "name": "retention rules"
+        },
+        {
+          "slug": "consent-records",
+          "name": "consent records"
+        },
+        {
+          "slug": "export-approval",
+          "name": "export approval"
+        },
+        {
+          "slug": "access-review",
+          "name": "access review"
+        },
+        {
+          "slug": "governance-reports",
+          "name": "governance reports"
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "slug": "relational-data-services",
+      "name": "Relational data services",
+      "entities": [
+        {
+          "slug": "schema-management",
+          "name": "schema management"
+        },
+        {
+          "slug": "migrations",
+          "name": "migrations"
+        },
+        {
+          "slug": "connection-pooling",
+          "name": "connection pooling"
+        },
+        {
+          "slug": "transactions",
+          "name": "transactions"
+        },
+        {
+          "slug": "query-timeouts",
+          "name": "query timeouts"
+        },
+        {
+          "slug": "isolation-levels",
+          "name": "isolation levels"
+        },
+        {
+          "slug": "backup-metadata",
+          "name": "backup metadata"
+        },
+        {
+          "slug": "database-health",
+          "name": "database health"
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "slug": "object-and-file-storage",
+      "name": "Object and file storage",
+      "entities": [
+        {
+          "slug": "upload-sessions",
+          "name": "upload sessions"
+        },
+        {
+          "slug": "multipart-uploads",
+          "name": "multipart uploads"
+        },
+        {
+          "slug": "checksums",
+          "name": "checksums"
+        },
+        {
+          "slug": "object-metadata",
+          "name": "object metadata"
+        },
+        {
+          "slug": "signed-urls",
+          "name": "signed URLs"
+        },
+        {
+          "slug": "lifecycle-rules",
+          "name": "lifecycle rules"
+        },
+        {
+          "slug": "retention-locks",
+          "name": "retention locks"
+        },
+        {
+          "slug": "storage-quotas",
+          "name": "storage quotas"
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "slug": "columnar-and-analytical-storage",
+      "name": "Columnar and analytical storage",
+      "entities": [
+        {
+          "slug": "arrow-schemas",
+          "name": "Arrow schemas"
+        },
+        {
+          "slug": "parquet-partitions",
+          "name": "Parquet partitions"
+        },
+        {
+          "slug": "column-pruning",
+          "name": "column pruning"
+        },
+        {
+          "slug": "predicate-pushdown",
+          "name": "predicate pushdown"
+        },
+        {
+          "slug": "compression-selection",
+          "name": "compression selection"
+        },
+        {
+          "slug": "partition-discovery",
+          "name": "partition discovery"
+        },
+        {
+          "slug": "statistics",
+          "name": "statistics"
+        },
+        {
+          "slug": "compaction",
+          "name": "compaction"
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "slug": "time-series-data",
+      "name": "Time-series data",
+      "entities": [
+        {
+          "slug": "timestamp-validation",
+          "name": "timestamp validation"
+        },
+        {
+          "slug": "interval-aggregation",
+          "name": "interval aggregation"
+        },
+        {
+          "slug": "downsampling",
+          "name": "downsampling"
+        },
+        {
+          "slug": "gap-detection",
+          "name": "gap detection"
+        },
+        {
+          "slug": "late-arrivals",
+          "name": "late arrivals"
+        },
+        {
+          "slug": "window-queries",
+          "name": "window queries"
+        },
+        {
+          "slug": "retention-tiers",
+          "name": "retention tiers"
+        },
+        {
+          "slug": "temporal-joins",
+          "name": "temporal joins"
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "slug": "geospatial-foundations",
+      "name": "Geospatial foundations",
+      "entities": [
+        {
+          "slug": "coordinate-reference-systems",
+          "name": "coordinate reference systems"
+        },
+        {
+          "slug": "geometry-validation",
+          "name": "geometry validation"
+        },
+        {
+          "slug": "spatial-indexing",
+          "name": "spatial indexing"
+        },
+        {
+          "slug": "reprojection",
+          "name": "reprojection"
+        },
+        {
+          "slug": "spatial-joins",
+          "name": "spatial joins"
+        },
+        {
+          "slug": "buffering",
+          "name": "buffering"
+        },
+        {
+          "slug": "overlays",
+          "name": "overlays"
+        },
+        {
+          "slug": "geofencing",
+          "name": "geofencing"
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "slug": "raster-and-satellite-imagery",
+      "name": "Raster and satellite imagery",
+      "entities": [
+        {
+          "slug": "raster-ingestion",
+          "name": "raster ingestion"
+        },
+        {
+          "slug": "band-metadata",
+          "name": "band metadata"
+        },
+        {
+          "slug": "nodata-handling",
+          "name": "nodata handling"
+        },
+        {
+          "slug": "mosaicking",
+          "name": "mosaicking"
+        },
+        {
+          "slug": "resampling",
+          "name": "resampling"
+        },
+        {
+          "slug": "tiling",
+          "name": "tiling"
+        },
+        {
+          "slug": "cloud-masks",
+          "name": "cloud masks"
+        },
+        {
+          "slug": "raster-statistics",
+          "name": "raster statistics"
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "slug": "remote-sensing-indices",
+      "name": "Remote sensing indices",
+      "entities": [
+        {
+          "slug": "ndvi",
+          "name": "NDVI"
+        },
+        {
+          "slug": "evi",
+          "name": "EVI"
+        },
+        {
+          "slug": "savi",
+          "name": "SAVI"
+        },
+        {
+          "slug": "ndwi",
+          "name": "NDWI"
+        },
+        {
+          "slug": "lai-proxies",
+          "name": "LAI proxies"
+        },
+        {
+          "slug": "index-formula-registry",
+          "name": "index formula registry"
+        },
+        {
+          "slug": "band-compatibility",
+          "name": "band compatibility"
+        },
+        {
+          "slug": "index-time-series",
+          "name": "index time series"
+        },
+        {
+          "slug": "index-quality-flags",
+          "name": "index quality flags"
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "slug": "field-and-farm-model",
+      "name": "Field and farm model",
+      "entities": [
+        {
+          "slug": "farms",
+          "name": "farms"
+        },
+        {
+          "slug": "fields",
+          "name": "fields"
+        },
+        {
+          "slug": "boundaries",
+          "name": "boundaries"
+        },
+        {
+          "slug": "plots",
+          "name": "plots"
+        },
+        {
+          "slug": "blocks",
+          "name": "blocks"
+        },
+        {
+          "slug": "management-zones",
+          "name": "management zones"
+        },
+        {
+          "slug": "field-history",
+          "name": "field history"
+        },
+        {
+          "slug": "ownership-history",
+          "name": "ownership history"
+        },
+        {
+          "slug": "field-level-permissions",
+          "name": "field-level permissions"
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "slug": "crop-and-cultivar-catalogue",
+      "name": "Crop and cultivar catalogue",
+      "entities": [
+        {
+          "slug": "crop-taxonomy",
+          "name": "crop taxonomy"
+        },
+        {
+          "slug": "cultivar-records",
+          "name": "cultivar records"
+        },
+        {
+          "slug": "growth-habit",
+          "name": "growth habit"
+        },
+        {
+          "slug": "planting-windows",
+          "name": "planting windows"
+        },
+        {
+          "slug": "maturity-attributes",
+          "name": "maturity attributes"
+        },
+        {
+          "slug": "crop-aliases",
+          "name": "crop aliases"
+        },
+        {
+          "slug": "taxonomy-provenance",
+          "name": "taxonomy provenance"
+        },
+        {
+          "slug": "cultivar-comparisons",
+          "name": "cultivar comparisons"
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "slug": "crop-calendars-and-phenology",
+      "name": "Crop calendars and phenology",
+      "entities": [
+        {
+          "slug": "growth-stages",
+          "name": "growth stages"
+        },
+        {
+          "slug": "planting-dates",
+          "name": "planting dates"
+        },
+        {
+          "slug": "emergence-observations",
+          "name": "emergence observations"
+        },
+        {
+          "slug": "flowering-records",
+          "name": "flowering records"
+        },
+        {
+          "slug": "maturity-estimates",
+          "name": "maturity estimates"
+        },
+        {
+          "slug": "stage-models",
+          "name": "stage models"
+        },
+        {
+          "slug": "calendar-localization",
+          "name": "calendar localization"
+        },
+        {
+          "slug": "stage-uncertainty",
+          "name": "stage uncertainty"
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "slug": "soil-profile-and-classification",
+      "name": "Soil profile and classification",
+      "entities": [
+        {
+          "slug": "soil-horizons",
+          "name": "soil horizons"
+        },
+        {
+          "slug": "texture-classes",
+          "name": "texture classes"
+        },
+        {
+          "slug": "bulk-density",
+          "name": "bulk density"
+        },
+        {
+          "slug": "ph",
+          "name": "pH"
+        },
+        {
+          "slug": "salinity",
+          "name": "salinity"
+        },
+        {
+          "slug": "organic-carbon",
+          "name": "organic carbon"
+        },
+        {
+          "slug": "soil-taxonomy",
+          "name": "soil taxonomy"
+        },
+        {
+          "slug": "profile-comparisons",
+          "name": "profile comparisons"
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "slug": "soil-chemistry-and-fertility",
+      "name": "Soil chemistry and fertility",
+      "entities": [
+        {
+          "slug": "macro-nutrients",
+          "name": "macro nutrients"
+        },
+        {
+          "slug": "micro-nutrients",
+          "name": "micro nutrients"
+        },
+        {
+          "slug": "cation-exchange",
+          "name": "cation exchange"
+        },
+        {
+          "slug": "nutrient-availability",
+          "name": "nutrient availability"
+        },
+        {
+          "slug": "soil-test-imports",
+          "name": "soil test imports"
+        },
+        {
+          "slug": "deficiency-flags",
+          "name": "deficiency flags"
+        },
+        {
+          "slug": "amendment-scenarios",
+          "name": "amendment scenarios"
+        },
+        {
+          "slug": "nutrient-balance",
+          "name": "nutrient balance"
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "slug": "soil-physics-and-mechanics",
+      "name": "Soil physics and mechanics",
+      "entities": [
+        {
+          "slug": "infiltration",
+          "name": "infiltration"
+        },
+        {
+          "slug": "hydraulic-conductivity",
+          "name": "hydraulic conductivity"
+        },
+        {
+          "slug": "water-retention",
+          "name": "water retention"
+        },
+        {
+          "slug": "porosity",
+          "name": "porosity"
+        },
+        {
+          "slug": "compaction",
+          "name": "compaction"
+        },
+        {
+          "slug": "erosion-susceptibility",
+          "name": "erosion susceptibility"
+        },
+        {
+          "slug": "soil-strength",
+          "name": "soil strength"
+        },
+        {
+          "slug": "parameter-calibration",
+          "name": "parameter calibration"
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "slug": "water-resources-and-hydrology",
+      "name": "Water resources and hydrology",
+      "entities": [
+        {
+          "slug": "watersheds",
+          "name": "watersheds"
+        },
+        {
+          "slug": "drainage-networks",
+          "name": "drainage networks"
+        },
+        {
+          "slug": "runoff-estimates",
+          "name": "runoff estimates"
+        },
+        {
+          "slug": "water-balance",
+          "name": "water balance"
+        },
+        {
+          "slug": "groundwater-observations",
+          "name": "groundwater observations"
+        },
+        {
+          "slug": "reservoir-series",
+          "name": "reservoir series"
+        },
+        {
+          "slug": "water-allocation",
+          "name": "water allocation"
+        },
+        {
+          "slug": "hydrological-scenarios",
+          "name": "hydrological scenarios"
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "slug": "irrigation-engineering",
+      "name": "Irrigation engineering",
+      "entities": [
+        {
+          "slug": "irrigation-events",
+          "name": "irrigation events"
+        },
+        {
+          "slug": "application-depth",
+          "name": "application depth"
+        },
+        {
+          "slug": "flow-rates",
+          "name": "flow rates"
+        },
+        {
+          "slug": "scheduling-constraints",
+          "name": "scheduling constraints"
+        },
+        {
+          "slug": "distribution-uniformity",
+          "name": "distribution uniformity"
+        },
+        {
+          "slug": "irrigation-efficiency",
+          "name": "irrigation efficiency"
+        },
+        {
+          "slug": "pump-energy",
+          "name": "pump energy"
+        },
+        {
+          "slug": "irrigation-recommendations",
+          "name": "irrigation recommendations"
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "slug": "weather-observations",
+      "name": "Weather observations",
+      "entities": [
+        {
+          "slug": "station-records",
+          "name": "station records"
+        },
+        {
+          "slug": "temperature",
+          "name": "temperature"
+        },
+        {
+          "slug": "precipitation",
+          "name": "precipitation"
+        },
+        {
+          "slug": "humidity",
+          "name": "humidity"
+        },
+        {
+          "slug": "wind",
+          "name": "wind"
+        },
+        {
+          "slug": "solar-radiation",
+          "name": "solar radiation"
+        },
+        {
+          "slug": "quality-flags",
+          "name": "quality flags"
+        },
+        {
+          "slug": "station-metadata",
+          "name": "station metadata"
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "slug": "weather-forecasts-and-climate",
+      "name": "Weather forecasts and climate",
+      "entities": [
+        {
+          "slug": "forecast-ingestion",
+          "name": "forecast ingestion"
+        },
+        {
+          "slug": "forecast-horizons",
+          "name": "forecast horizons"
+        },
+        {
+          "slug": "ensemble-members",
+          "name": "ensemble members"
+        },
+        {
+          "slug": "bias-correction",
+          "name": "bias correction"
+        },
+        {
+          "slug": "climate-normals",
+          "name": "climate normals"
+        },
+        {
+          "slug": "extreme-event-indicators",
+          "name": "extreme-event indicators"
+        },
+        {
+          "slug": "forecast-verification",
+          "name": "forecast verification"
+        },
+        {
+          "slug": "climate-scenarios",
+          "name": "climate scenarios"
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "slug": "environmental-monitoring",
+      "name": "Environmental monitoring",
+      "entities": [
+        {
+          "slug": "air-quality",
+          "name": "air quality"
+        },
+        {
+          "slug": "water-quality",
+          "name": "water quality"
+        },
+        {
+          "slug": "soil-contamination",
+          "name": "soil contamination"
+        },
+        {
+          "slug": "biodiversity-observations",
+          "name": "biodiversity observations"
+        },
+        {
+          "slug": "habitat-metrics",
+          "name": "habitat metrics"
+        },
+        {
+          "slug": "environmental-thresholds",
+          "name": "environmental thresholds"
+        },
+        {
+          "slug": "impact-indicators",
+          "name": "impact indicators"
+        },
+        {
+          "slug": "compliance-reports",
+          "name": "compliance reports"
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "slug": "sensor-registry-and-telemetry",
+      "name": "Sensor registry and telemetry",
+      "entities": [
+        {
+          "slug": "device-registry",
+          "name": "device registry"
+        },
+        {
+          "slug": "sensor-identity",
+          "name": "sensor identity"
+        },
+        {
+          "slug": "calibration-records",
+          "name": "calibration records"
+        },
+        {
+          "slug": "telemetry-schemas",
+          "name": "telemetry schemas"
+        },
+        {
+          "slug": "timestamp-synchronization",
+          "name": "timestamp synchronization"
+        },
+        {
+          "slug": "signal-quality",
+          "name": "signal quality"
+        },
+        {
+          "slug": "device-health",
+          "name": "device health"
+        },
+        {
+          "slug": "telemetry-retention",
+          "name": "telemetry retention"
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "slug": "iot-event-processing",
+      "name": "IoT event processing",
+      "entities": [
+        {
+          "slug": "event-envelopes",
+          "name": "event envelopes"
+        },
+        {
+          "slug": "schema-evolution",
+          "name": "schema evolution"
+        },
+        {
+          "slug": "event-ordering",
+          "name": "event ordering"
+        },
+        {
+          "slug": "deduplication",
+          "name": "deduplication"
+        },
+        {
+          "slug": "stream-windows",
+          "name": "stream windows"
+        },
+        {
+          "slug": "threshold-triggers",
+          "name": "threshold triggers"
+        },
+        {
+          "slug": "event-replay",
+          "name": "event replay"
+        },
+        {
+          "slug": "dead-letter-handling",
+          "name": "dead-letter handling"
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "slug": "agricultural-equipment-data",
+      "name": "Agricultural equipment data",
+      "entities": [
+        {
+          "slug": "machine-registry",
+          "name": "machine registry"
+        },
+        {
+          "slug": "equipment-telemetry",
+          "name": "equipment telemetry"
+        },
+        {
+          "slug": "operation-records",
+          "name": "operation records"
+        },
+        {
+          "slug": "implement-settings",
+          "name": "implement settings"
+        },
+        {
+          "slug": "machine-utilization",
+          "name": "machine utilization"
+        },
+        {
+          "slug": "fuel-use",
+          "name": "fuel use"
+        },
+        {
+          "slug": "maintenance-events",
+          "name": "maintenance events"
+        },
+        {
+          "slug": "vendor-adapters",
+          "name": "vendor adapters"
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "slug": "laboratory-and-sample-management",
+      "name": "Laboratory and sample management",
+      "entities": [
+        {
+          "slug": "sample-identity",
+          "name": "sample identity"
+        },
+        {
+          "slug": "collection-metadata",
+          "name": "collection metadata"
+        },
+        {
+          "slug": "chain-of-custody",
+          "name": "chain of custody"
+        },
+        {
+          "slug": "assay-results",
+          "name": "assay results"
+        },
+        {
+          "slug": "laboratory-methods",
+          "name": "laboratory methods"
+        },
+        {
+          "slug": "detection-limits",
+          "name": "detection limits"
+        },
+        {
+          "slug": "sample-relationships",
+          "name": "sample relationships"
+        },
+        {
+          "slug": "result-validation",
+          "name": "result validation"
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "slug": "plant-phenotyping",
+      "name": "Plant phenotyping",
+      "entities": [
+        {
+          "slug": "trait-definitions",
+          "name": "trait definitions"
+        },
+        {
+          "slug": "phenotype-observations",
+          "name": "phenotype observations"
+        },
+        {
+          "slug": "measurement-protocols",
+          "name": "measurement protocols"
+        },
+        {
+          "slug": "image-linked-traits",
+          "name": "image-linked traits"
+        },
+        {
+          "slug": "plant-identifiers",
+          "name": "plant identifiers"
+        },
+        {
+          "slug": "experimental-blocks",
+          "name": "experimental blocks"
+        },
+        {
+          "slug": "trait-distributions",
+          "name": "trait distributions"
+        },
+        {
+          "slug": "observer-agreement",
+          "name": "observer agreement"
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "slug": "genomics-and-sequence-metadata",
+      "name": "Genomics and sequence metadata",
+      "entities": [
+        {
+          "slug": "reference-genomes",
+          "name": "reference genomes"
+        },
+        {
+          "slug": "sequence-metadata",
+          "name": "sequence metadata"
+        },
+        {
+          "slug": "sample-mapping",
+          "name": "sample mapping"
+        },
+        {
+          "slug": "variant-annotations",
+          "name": "variant annotations"
+        },
+        {
+          "slug": "accession-records",
+          "name": "accession records"
+        },
+        {
+          "slug": "quality-metrics",
+          "name": "quality metrics"
+        },
+        {
+          "slug": "genome-build-tracking",
+          "name": "genome build tracking"
+        },
+        {
+          "slug": "provenance",
+          "name": "provenance"
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "slug": "transcriptomics-and-gene-expression",
+      "name": "Transcriptomics and gene expression",
+      "entities": [
+        {
+          "slug": "expression-matrices",
+          "name": "expression matrices"
+        },
+        {
+          "slug": "normalization-metadata",
+          "name": "normalization metadata"
+        },
+        {
+          "slug": "differential-expression-results",
+          "name": "differential expression results"
+        },
+        {
+          "slug": "batch-effects",
+          "name": "batch effects"
+        },
+        {
+          "slug": "gene-identifiers",
+          "name": "gene identifiers"
+        },
+        {
+          "slug": "sample-contrasts",
+          "name": "sample contrasts"
+        },
+        {
+          "slug": "pathway-inputs",
+          "name": "pathway inputs"
+        },
+        {
+          "slug": "analysis-provenance",
+          "name": "analysis provenance"
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "slug": "proteomics-and-metabolomics",
+      "name": "Proteomics and metabolomics",
+      "entities": [
+        {
+          "slug": "protein-abundance",
+          "name": "protein abundance"
+        },
+        {
+          "slug": "metabolite-measurements",
+          "name": "metabolite measurements"
+        },
+        {
+          "slug": "feature-annotation",
+          "name": "feature annotation"
+        },
+        {
+          "slug": "instrument-metadata",
+          "name": "instrument metadata"
+        },
+        {
+          "slug": "normalization",
+          "name": "normalization"
+        },
+        {
+          "slug": "detection-limits",
+          "name": "detection limits"
+        },
+        {
+          "slug": "pathway-mapping",
+          "name": "pathway mapping"
+        },
+        {
+          "slug": "sample-comparisons",
+          "name": "sample comparisons"
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "slug": "biological-pathways-and-ontology",
+      "name": "Biological pathways and ontology",
+      "entities": [
+        {
+          "slug": "ontology-terms",
+          "name": "ontology terms"
+        },
+        {
+          "slug": "pathway-graphs",
+          "name": "pathway graphs"
+        },
+        {
+          "slug": "gene-term-mappings",
+          "name": "gene-term mappings"
+        },
+        {
+          "slug": "term-versions",
+          "name": "term versions"
+        },
+        {
+          "slug": "enrichment-analysis",
+          "name": "enrichment analysis"
+        },
+        {
+          "slug": "evidence-codes",
+          "name": "evidence codes"
+        },
+        {
+          "slug": "ontology-crosswalks",
+          "name": "ontology crosswalks"
+        },
+        {
+          "slug": "semantic-search",
+          "name": "semantic search"
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "slug": "experimental-design",
+      "name": "Experimental design",
+      "entities": [
+        {
+          "slug": "treatment-factors",
+          "name": "treatment factors"
+        },
+        {
+          "slug": "control-groups",
+          "name": "control groups"
+        },
+        {
+          "slug": "randomization",
+          "name": "randomization"
+        },
+        {
+          "slug": "replication",
+          "name": "replication"
+        },
+        {
+          "slug": "blocking",
+          "name": "blocking"
+        },
+        {
+          "slug": "power-calculations",
+          "name": "power calculations"
+        },
+        {
+          "slug": "protocol-versions",
+          "name": "protocol versions"
+        },
+        {
+          "slug": "design-validation",
+          "name": "design validation"
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "slug": "statistics-and-inference",
+      "name": "Statistics and inference",
+      "entities": [
+        {
+          "slug": "descriptive-statistics",
+          "name": "descriptive statistics"
+        },
+        {
+          "slug": "confidence-intervals",
+          "name": "confidence intervals"
+        },
+        {
+          "slug": "hypothesis-tests",
+          "name": "hypothesis tests"
+        },
+        {
+          "slug": "effect-sizes",
+          "name": "effect sizes"
+        },
+        {
+          "slug": "multiple-testing-correction",
+          "name": "multiple-testing correction"
+        },
+        {
+          "slug": "regression-diagnostics",
+          "name": "regression diagnostics"
+        },
+        {
+          "slug": "assumptions-reporting",
+          "name": "assumptions reporting"
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "slug": "causal-and-comparative-analysis",
+      "name": "Causal and comparative analysis",
+      "entities": [
+        {
+          "slug": "causal-assumptions",
+          "name": "causal assumptions"
+        },
+        {
+          "slug": "confounder-records",
+          "name": "confounder records"
+        },
+        {
+          "slug": "matched-comparisons",
+          "name": "matched comparisons"
+        },
+        {
+          "slug": "treatment-effect-estimates",
+          "name": "treatment-effect estimates"
+        },
+        {
+          "slug": "sensitivity-checks",
+          "name": "sensitivity checks"
+        },
+        {
+          "slug": "subgroup-analysis",
+          "name": "subgroup analysis"
+        },
+        {
+          "slug": "causal-graph-versioning",
+          "name": "causal graph versioning"
+        },
+        {
+          "slug": "evidence-grading",
+          "name": "evidence grading"
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "slug": "machine-learning-lifecycle",
+      "name": "Machine learning lifecycle",
+      "entities": [
+        {
+          "slug": "dataset-splits",
+          "name": "dataset splits"
+        },
+        {
+          "slug": "feature-sets",
+          "name": "feature sets"
+        },
+        {
+          "slug": "training-runs",
+          "name": "training runs"
+        },
+        {
+          "slug": "model-registry",
+          "name": "model registry"
+        },
+        {
+          "slug": "evaluation-metrics",
+          "name": "evaluation metrics"
+        },
+        {
+          "slug": "model-artifacts",
+          "name": "model artifacts"
+        },
+        {
+          "slug": "deployment-approval",
+          "name": "deployment approval"
+        },
+        {
+          "slug": "model-rollback",
+          "name": "model rollback"
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "slug": "forecasting-and-prediction",
+      "name": "Forecasting and prediction",
+      "entities": [
+        {
+          "slug": "forecast-targets",
+          "name": "forecast targets"
+        },
+        {
+          "slug": "prediction-horizons",
+          "name": "prediction horizons"
+        },
+        {
+          "slug": "baseline-models",
+          "name": "baseline models"
+        },
+        {
+          "slug": "temporal-validation",
+          "name": "temporal validation"
+        },
+        {
+          "slug": "prediction-intervals",
+          "name": "prediction intervals"
+        },
+        {
+          "slug": "forecast-backtesting",
+          "name": "forecast backtesting"
+        },
+        {
+          "slug": "error-decomposition",
+          "name": "error decomposition"
+        },
+        {
+          "slug": "forecast-comparison",
+          "name": "forecast comparison"
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "slug": "computer-vision",
+      "name": "Computer vision",
+      "entities": [
+        {
+          "slug": "image-datasets",
+          "name": "image datasets"
+        },
+        {
+          "slug": "annotation-projects",
+          "name": "annotation projects"
+        },
+        {
+          "slug": "label-taxonomies",
+          "name": "label taxonomies"
+        },
+        {
+          "slug": "training-manifests",
+          "name": "training manifests"
+        },
+        {
+          "slug": "segmentation-outputs",
+          "name": "segmentation outputs"
+        },
+        {
+          "slug": "detection-outputs",
+          "name": "detection outputs"
+        },
+        {
+          "slug": "image-quality-checks",
+          "name": "image quality checks"
+        },
+        {
+          "slug": "inference-benchmarking",
+          "name": "inference benchmarking"
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "slug": "anomaly-and-fault-detection",
+      "name": "Anomaly and fault detection",
+      "entities": [
+        {
+          "slug": "baseline-profiles",
+          "name": "baseline profiles"
+        },
+        {
+          "slug": "anomaly-scores",
+          "name": "anomaly scores"
+        },
+        {
+          "slug": "threshold-policies",
+          "name": "threshold policies"
+        },
+        {
+          "slug": "alert-deduplication",
+          "name": "alert deduplication"
+        },
+        {
+          "slug": "fault-categories",
+          "name": "fault categories"
+        },
+        {
+          "slug": "root-cause-evidence",
+          "name": "root-cause evidence"
+        },
+        {
+          "slug": "feedback-labels",
+          "name": "feedback labels"
+        },
+        {
+          "slug": "false-positive-tracking",
+          "name": "false-positive tracking"
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "slug": "decision-support-and-recommendations",
+      "name": "Decision support and recommendations",
+      "entities": [
+        {
+          "slug": "recommendation-inputs",
+          "name": "recommendation inputs"
+        },
+        {
+          "slug": "constraint-checks",
+          "name": "constraint checks"
+        },
+        {
+          "slug": "alternatives",
+          "name": "alternatives"
+        },
+        {
+          "slug": "expected-outcomes",
+          "name": "expected outcomes"
+        },
+        {
+          "slug": "uncertainty-display",
+          "name": "uncertainty display"
+        },
+        {
+          "slug": "recommendation-rationale",
+          "name": "recommendation rationale"
+        },
+        {
+          "slug": "human-approval",
+          "name": "human approval"
+        },
+        {
+          "slug": "outcome-tracking",
+          "name": "outcome tracking"
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "slug": "optimization-and-simulation",
+      "name": "Optimization and simulation",
+      "entities": [
+        {
+          "slug": "objective-functions",
+          "name": "objective functions"
+        },
+        {
+          "slug": "decision-variables",
+          "name": "decision variables"
+        },
+        {
+          "slug": "constraints",
+          "name": "constraints"
+        },
+        {
+          "slug": "solver-settings",
+          "name": "solver settings"
+        },
+        {
+          "slug": "scenario-runs",
+          "name": "scenario runs"
+        },
+        {
+          "slug": "sensitivity-sweeps",
+          "name": "sensitivity sweeps"
+        },
+        {
+          "slug": "pareto-frontiers",
+          "name": "Pareto frontiers"
+        },
+        {
+          "slug": "solution-verification",
+          "name": "solution verification"
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "slug": "scientific-workflow-engine",
+      "name": "Scientific workflow engine",
+      "entities": [
+        {
+          "slug": "workflow-definitions",
+          "name": "workflow definitions"
+        },
+        {
+          "slug": "dependency-graphs",
+          "name": "dependency graphs"
+        },
+        {
+          "slug": "input-contracts",
+          "name": "input contracts"
+        },
+        {
+          "slug": "task-execution",
+          "name": "task execution"
+        },
+        {
+          "slug": "retries",
+          "name": "retries"
+        },
+        {
+          "slug": "checkpoints",
+          "name": "checkpoints"
+        },
+        {
+          "slug": "artifact-outputs",
+          "name": "artifact outputs"
+        },
+        {
+          "slug": "workflow-versioning",
+          "name": "workflow versioning"
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "slug": "background-job-execution",
+      "name": "Background job execution",
+      "entities": [
+        {
+          "slug": "job-queues",
+          "name": "job queues"
+        },
+        {
+          "slug": "priority-classes",
+          "name": "priority classes"
+        },
+        {
+          "slug": "leases",
+          "name": "leases"
+        },
+        {
+          "slug": "cancellation",
+          "name": "cancellation"
+        },
+        {
+          "slug": "progress-reporting",
+          "name": "progress reporting"
+        },
+        {
+          "slug": "retry-policies",
+          "name": "retry policies"
+        },
+        {
+          "slug": "resource-limits",
+          "name": "resource limits"
+        },
+        {
+          "slug": "stuck-job-detection",
+          "name": "stuck-job detection"
+        }
+      ]
+    },
+    {
+      "index": 53,
+      "slug": "scheduling-and-resource-management",
+      "name": "Scheduling and resource management",
+      "entities": [
+        {
+          "slug": "cpu-quotas",
+          "name": "CPU quotas"
+        },
+        {
+          "slug": "memory-quotas",
+          "name": "memory quotas"
+        },
+        {
+          "slug": "gpu-requests",
+          "name": "GPU requests"
+        },
+        {
+          "slug": "concurrency-limits",
+          "name": "concurrency limits"
+        },
+        {
+          "slug": "queue-fairness",
+          "name": "queue fairness"
+        },
+        {
+          "slug": "reservations",
+          "name": "reservations"
+        },
+        {
+          "slug": "admission-control",
+          "name": "admission control"
+        },
+        {
+          "slug": "utilization-reporting",
+          "name": "utilization reporting"
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "slug": "research-notebooks-and-projects",
+      "name": "Research notebooks and projects",
+      "entities": [
+        {
+          "slug": "research-projects",
+          "name": "research projects"
+        },
+        {
+          "slug": "notebooks",
+          "name": "notebooks"
+        },
+        {
+          "slug": "experiment-attachments",
+          "name": "experiment attachments"
+        },
+        {
+          "slug": "shared-workspaces",
+          "name": "shared workspaces"
+        },
+        {
+          "slug": "execution-metadata",
+          "name": "execution metadata"
+        },
+        {
+          "slug": "versioned-outputs",
+          "name": "versioned outputs"
+        },
+        {
+          "slug": "comments",
+          "name": "comments"
+        },
+        {
+          "slug": "project-exports",
+          "name": "project exports"
+        }
+      ]
+    },
+    {
+      "index": 55,
+      "slug": "visualization-and-dashboards",
+      "name": "Visualization and dashboards",
+      "entities": [
+        {
+          "slug": "chart-definitions",
+          "name": "chart definitions"
+        },
+        {
+          "slug": "dashboard-layouts",
+          "name": "dashboard layouts"
+        },
+        {
+          "slug": "saved-views",
+          "name": "saved views"
+        },
+        {
+          "slug": "filters",
+          "name": "filters"
+        },
+        {
+          "slug": "drilldowns",
+          "name": "drilldowns"
+        },
+        {
+          "slug": "cross-filtering",
+          "name": "cross-filtering"
+        },
+        {
+          "slug": "export-images",
+          "name": "export images"
+        },
+        {
+          "slug": "accessibility-checks",
+          "name": "accessibility checks"
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "slug": "gis-map-workspace",
+      "name": "GIS map workspace",
+      "entities": [
+        {
+          "slug": "layer-catalogues",
+          "name": "layer catalogues"
+        },
+        {
+          "slug": "map-styling",
+          "name": "map styling"
+        },
+        {
+          "slug": "feature-selection",
+          "name": "feature selection"
+        },
+        {
+          "slug": "map-filters",
+          "name": "map filters"
+        },
+        {
+          "slug": "coordinate-display",
+          "name": "coordinate display"
+        },
+        {
+          "slug": "layer-ordering",
+          "name": "layer ordering"
+        },
+        {
+          "slug": "scale-rules",
+          "name": "scale rules"
+        },
+        {
+          "slug": "map-exports",
+          "name": "map exports"
+        }
+      ]
+    },
+    {
+      "index": 57,
+      "slug": "reporting-and-publishing",
+      "name": "Reporting and publishing",
+      "entities": [
+        {
+          "slug": "report-templates",
+          "name": "report templates"
+        },
+        {
+          "slug": "parameterized-reports",
+          "name": "parameterized reports"
+        },
+        {
+          "slug": "citation-metadata",
+          "name": "citation metadata"
+        },
+        {
+          "slug": "charts-and-tables",
+          "name": "charts and tables"
+        },
+        {
+          "slug": "pdf-exports",
+          "name": "PDF exports"
+        },
+        {
+          "slug": "csv-exports",
+          "name": "CSV exports"
+        },
+        {
+          "slug": "report-versioning",
+          "name": "report versioning"
+        },
+        {
+          "slug": "publication-approvals",
+          "name": "publication approvals"
+        }
+      ]
+    },
+    {
+      "index": 58,
+      "slug": "search-and-discovery",
+      "name": "Search and discovery",
+      "entities": [
+        {
+          "slug": "dataset-search",
+          "name": "dataset search"
+        },
+        {
+          "slug": "field-search",
+          "name": "field search"
+        },
+        {
+          "slug": "metadata-filters",
+          "name": "metadata filters"
+        },
+        {
+          "slug": "faceted-results",
+          "name": "faceted results"
+        },
+        {
+          "slug": "synonym-handling",
+          "name": "synonym handling"
+        },
+        {
+          "slug": "spatial-search",
+          "name": "spatial search"
+        },
+        {
+          "slug": "saved-searches",
+          "name": "saved searches"
+        },
+        {
+          "slug": "relevance-feedback",
+          "name": "relevance feedback"
+        }
+      ]
+    },
+    {
+      "index": 59,
+      "slug": "natural-language-assistance",
+      "name": "Natural-language assistance",
+      "entities": [
+        {
+          "slug": "question-parsing",
+          "name": "question parsing"
+        },
+        {
+          "slug": "source-grounding",
+          "name": "source grounding"
+        },
+        {
+          "slug": "query-previews",
+          "name": "query previews"
+        },
+        {
+          "slug": "citation-links",
+          "name": "citation links"
+        },
+        {
+          "slug": "confidence-disclosures",
+          "name": "confidence disclosures"
+        },
+        {
+          "slug": "permission-aware-retrieval",
+          "name": "permission-aware retrieval"
+        },
+        {
+          "slug": "refusal-rules",
+          "name": "refusal rules"
+        },
+        {
+          "slug": "answer-audit",
+          "name": "answer audit"
+        }
+      ]
+    },
+    {
+      "index": 60,
+      "slug": "knowledge-graph-and-semantics",
+      "name": "Knowledge graph and semantics",
+      "entities": [
+        {
+          "slug": "entity-definitions",
+          "name": "entity definitions"
+        },
+        {
+          "slug": "relationship-types",
+          "name": "relationship types"
+        },
+        {
+          "slug": "ontology-links",
+          "name": "ontology links"
+        },
+        {
+          "slug": "graph-traversal",
+          "name": "graph traversal"
+        },
+        {
+          "slug": "entity-resolution",
+          "name": "entity resolution"
+        },
+        {
+          "slug": "provenance-edges",
+          "name": "provenance edges"
+        },
+        {
+          "slug": "graph-versioning",
+          "name": "graph versioning"
+        },
+        {
+          "slug": "graph-export",
+          "name": "graph export"
+        }
+      ]
+    },
+    {
+      "index": 61,
+      "slug": "external-data-connectors",
+      "name": "External data connectors",
+      "entities": [
+        {
+          "slug": "connector-registry",
+          "name": "connector registry"
+        },
+        {
+          "slug": "credentials-references",
+          "name": "credentials references"
+        },
+        {
+          "slug": "pagination-handling",
+          "name": "pagination handling"
+        },
+        {
+          "slug": "rate-limits",
+          "name": "rate limits"
+        },
+        {
+          "slug": "retries",
+          "name": "retries"
+        },
+        {
+          "slug": "schema-mapping",
+          "name": "schema mapping"
+        },
+        {
+          "slug": "sync-checkpoints",
+          "name": "sync checkpoints"
+        },
+        {
+          "slug": "connector-health",
+          "name": "connector health"
+        }
+      ]
+    },
+    {
+      "index": 62,
+      "slug": "satellite-and-agency-integrations",
+      "name": "Satellite and agency integrations",
+      "entities": [
+        {
+          "slug": "provider-catalogues",
+          "name": "provider catalogues"
+        },
+        {
+          "slug": "acquisition-metadata",
+          "name": "acquisition metadata"
+        },
+        {
+          "slug": "coverage-checks",
+          "name": "coverage checks"
+        },
+        {
+          "slug": "licence-metadata",
+          "name": "licence metadata"
+        },
+        {
+          "slug": "request-quotas",
+          "name": "request quotas"
+        },
+        {
+          "slug": "data-freshness",
+          "name": "data freshness"
+        },
+        {
+          "slug": "source-status",
+          "name": "source status"
+        },
+        {
+          "slug": "ingestion-provenance",
+          "name": "ingestion provenance"
+        }
+      ]
+    },
+    {
+      "index": 63,
+      "slug": "public-agricultural-datasets",
+      "name": "Public agricultural datasets",
+      "entities": [
+        {
+          "slug": "dataset-manifests",
+          "name": "dataset manifests"
+        },
+        {
+          "slug": "source-citations",
+          "name": "source citations"
+        },
+        {
+          "slug": "licence-metadata",
+          "name": "licence metadata"
+        },
+        {
+          "slug": "update-checks",
+          "name": "update checks"
+        },
+        {
+          "slug": "schema-mapping",
+          "name": "schema mapping"
+        },
+        {
+          "slug": "coverage-summaries",
+          "name": "coverage summaries"
+        },
+        {
+          "slug": "reproducibility-snapshots",
+          "name": "reproducibility snapshots"
+        },
+        {
+          "slug": "attribution-output",
+          "name": "attribution output"
+        }
+      ]
+    },
+    {
+      "index": 64,
+      "slug": "economic-and-farm-finance-analytics",
+      "name": "Economic and farm finance analytics",
+      "entities": [
+        {
+          "slug": "input-costs",
+          "name": "input costs"
+        },
+        {
+          "slug": "labor-costs",
+          "name": "labor costs"
+        },
+        {
+          "slug": "machinery-costs",
+          "name": "machinery costs"
+        },
+        {
+          "slug": "revenue-records",
+          "name": "revenue records"
+        },
+        {
+          "slug": "margin-calculations",
+          "name": "margin calculations"
+        },
+        {
+          "slug": "break-even-analysis",
+          "name": "break-even analysis"
+        },
+        {
+          "slug": "scenario-budgets",
+          "name": "scenario budgets"
+        },
+        {
+          "slug": "cost-provenance",
+          "name": "cost provenance"
+        }
+      ]
+    },
+    {
+      "index": 65,
+      "slug": "supply-chain-and-traceability",
+      "name": "Supply chain and traceability",
+      "entities": [
+        {
+          "slug": "lot-identifiers",
+          "name": "lot identifiers"
+        },
+        {
+          "slug": "harvest-batches",
+          "name": "harvest batches"
+        },
+        {
+          "slug": "custody-events",
+          "name": "custody events"
+        },
+        {
+          "slug": "origin-records",
+          "name": "origin records"
+        },
+        {
+          "slug": "processing-links",
+          "name": "processing links"
+        },
+        {
+          "slug": "traceability-queries",
+          "name": "traceability queries"
+        },
+        {
+          "slug": "recall-workflows",
+          "name": "recall workflows"
+        },
+        {
+          "slug": "chain-of-custody-reports",
+          "name": "chain-of-custody reports"
+        }
+      ]
+    },
+    {
+      "index": 66,
+      "slug": "sustainability-and-carbon",
+      "name": "Sustainability and carbon",
+      "entities": [
+        {
+          "slug": "activity-data",
+          "name": "activity data"
+        },
+        {
+          "slug": "emission-factors",
+          "name": "emission factors"
+        },
+        {
+          "slug": "carbon-estimates",
+          "name": "carbon estimates"
+        },
+        {
+          "slug": "water-footprints",
+          "name": "water footprints"
+        },
+        {
+          "slug": "nutrient-losses",
+          "name": "nutrient losses"
+        },
+        {
+          "slug": "methodology-versions",
+          "name": "methodology versions"
+        },
+        {
+          "slug": "uncertainty-ranges",
+          "name": "uncertainty ranges"
+        },
+        {
+          "slug": "sustainability-reports",
+          "name": "sustainability reports"
+        }
+      ]
+    },
+    {
+      "index": 67,
+      "slug": "risk-and-resilience-analytics",
+      "name": "Risk and resilience analytics",
+      "entities": [
+        {
+          "slug": "hazard-catalogues",
+          "name": "hazard catalogues"
+        },
+        {
+          "slug": "exposure-layers",
+          "name": "exposure layers"
+        },
+        {
+          "slug": "vulnerability-factors",
+          "name": "vulnerability factors"
+        },
+        {
+          "slug": "risk-scores",
+          "name": "risk scores"
+        },
+        {
+          "slug": "scenario-comparisons",
+          "name": "scenario comparisons"
+        },
+        {
+          "slug": "resilience-indicators",
+          "name": "resilience indicators"
+        },
+        {
+          "slug": "risk-alerts",
+          "name": "risk alerts"
+        },
+        {
+          "slug": "mitigation-tracking",
+          "name": "mitigation tracking"
+        }
+      ]
+    },
+    {
+      "index": 68,
+      "slug": "pest-and-disease-intelligence",
+      "name": "Pest and disease intelligence",
+      "entities": [
+        {
+          "slug": "pest-taxonomy",
+          "name": "pest taxonomy"
+        },
+        {
+          "slug": "disease-taxonomy",
+          "name": "disease taxonomy"
+        },
+        {
+          "slug": "observation-records",
+          "name": "observation records"
+        },
+        {
+          "slug": "incidence-severity",
+          "name": "incidence severity"
+        },
+        {
+          "slug": "environmental-risk-factors",
+          "name": "environmental risk factors"
+        },
+        {
+          "slug": "scouting-protocols",
+          "name": "scouting protocols"
+        },
+        {
+          "slug": "outbreak-maps",
+          "name": "outbreak maps"
+        },
+        {
+          "slug": "intervention-outcomes",
+          "name": "intervention outcomes"
+        }
+      ]
+    },
+    {
+      "index": 69,
+      "slug": "crop-yield-and-production",
+      "name": "Crop yield and production",
+      "entities": [
+        {
+          "slug": "yield-observations",
+          "name": "yield observations"
+        },
+        {
+          "slug": "yield-maps",
+          "name": "yield maps"
+        },
+        {
+          "slug": "harvest-totals",
+          "name": "harvest totals"
+        },
+        {
+          "slug": "moisture-correction",
+          "name": "moisture correction"
+        },
+        {
+          "slug": "yield-estimation",
+          "name": "yield estimation"
+        },
+        {
+          "slug": "yield-variability",
+          "name": "yield variability"
+        },
+        {
+          "slug": "benchmark-comparisons",
+          "name": "benchmark comparisons"
+        },
+        {
+          "slug": "yield-uncertainty",
+          "name": "yield uncertainty"
+        }
+      ]
+    },
+    {
+      "index": 70,
+      "slug": "agricultural-economics-and-markets",
+      "name": "Agricultural economics and markets",
+      "entities": [
+        {
+          "slug": "commodity-prices",
+          "name": "commodity prices"
+        },
+        {
+          "slug": "market-series",
+          "name": "market series"
+        },
+        {
+          "slug": "price-provenance",
+          "name": "price provenance"
+        },
+        {
+          "slug": "seasonal-comparisons",
+          "name": "seasonal comparisons"
+        },
+        {
+          "slug": "supply-estimates",
+          "name": "supply estimates"
+        },
+        {
+          "slug": "demand-indicators",
+          "name": "demand indicators"
+        },
+        {
+          "slug": "market-scenario-analysis",
+          "name": "market scenario analysis"
+        },
+        {
+          "slug": "price-alert-rules",
+          "name": "price alert rules"
+        }
+      ]
+    },
+    {
+      "index": 71,
+      "slug": "multilingual-and-localization",
+      "name": "Multilingual and localization",
+      "entities": [
+        {
+          "slug": "locale-catalogues",
+          "name": "locale catalogues"
+        },
+        {
+          "slug": "translated-labels",
+          "name": "translated labels"
+        },
+        {
+          "slug": "unit-localization",
+          "name": "unit localization"
+        },
+        {
+          "slug": "timezone-handling",
+          "name": "timezone handling"
+        },
+        {
+          "slug": "localized-calendars",
+          "name": "localized calendars"
+        },
+        {
+          "slug": "language-fallback",
+          "name": "language fallback"
+        },
+        {
+          "slug": "translated-reports",
+          "name": "translated reports"
+        },
+        {
+          "slug": "locale-testing",
+          "name": "locale testing"
+        }
+      ]
+    },
+    {
+      "index": 72,
+      "slug": "accessibility-and-usability",
+      "name": "Accessibility and usability",
+      "entities": [
+        {
+          "slug": "keyboard-navigation",
+          "name": "keyboard navigation"
+        },
+        {
+          "slug": "screen-reader-labels",
+          "name": "screen-reader labels"
+        },
+        {
+          "slug": "contrast-checks",
+          "name": "contrast checks"
+        },
+        {
+          "slug": "focus-management",
+          "name": "focus management"
+        },
+        {
+          "slug": "accessible-charts",
+          "name": "accessible charts"
+        },
+        {
+          "slug": "form-error-announcements",
+          "name": "form error announcements"
+        },
+        {
+          "slug": "reduced-motion",
+          "name": "reduced motion"
+        },
+        {
+          "slug": "accessibility-audit",
+          "name": "accessibility audit"
+        }
+      ]
+    },
+    {
+      "index": 73,
+      "slug": "notifications-and-subscriptions",
+      "name": "Notifications and subscriptions",
+      "entities": [
+        {
+          "slug": "notification-templates",
+          "name": "notification templates"
+        },
+        {
+          "slug": "user-preferences",
+          "name": "user preferences"
+        },
+        {
+          "slug": "event-subscriptions",
+          "name": "event subscriptions"
+        },
+        {
+          "slug": "email-delivery",
+          "name": "email delivery"
+        },
+        {
+          "slug": "webhook-delivery",
+          "name": "webhook delivery"
+        },
+        {
+          "slug": "retry-handling",
+          "name": "retry handling"
+        },
+        {
+          "slug": "delivery-receipts",
+          "name": "delivery receipts"
+        },
+        {
+          "slug": "notification-audit",
+          "name": "notification audit"
+        }
+      ]
+    },
+    {
+      "index": 74,
+      "slug": "audit-and-compliance",
+      "name": "Audit and compliance",
+      "entities": [
+        {
+          "slug": "audit-events",
+          "name": "audit events"
+        },
+        {
+          "slug": "actor-identity",
+          "name": "actor identity"
+        },
+        {
+          "slug": "action-records",
+          "name": "action records"
+        },
+        {
+          "slug": "immutable-timestamps",
+          "name": "immutable timestamps"
+        },
+        {
+          "slug": "policy-changes",
+          "name": "policy changes"
+        },
+        {
+          "slug": "export-logs",
+          "name": "export logs"
+        },
+        {
+          "slug": "retention-enforcement",
+          "name": "retention enforcement"
+        },
+        {
+          "slug": "compliance-evidence",
+          "name": "compliance evidence"
+        }
+      ]
+    },
+    {
+      "index": 75,
+      "slug": "security-operations",
+      "name": "Security operations",
+      "entities": [
+        {
+          "slug": "dependency-scanning",
+          "name": "dependency scanning"
+        },
+        {
+          "slug": "secret-detection",
+          "name": "secret detection"
+        },
+        {
+          "slug": "threat-modeling",
+          "name": "threat modeling"
+        },
+        {
+          "slug": "security-headers",
+          "name": "security headers"
+        },
+        {
+          "slug": "rate-limiting",
+          "name": "rate limiting"
+        },
+        {
+          "slug": "abuse-detection",
+          "name": "abuse detection"
+        },
+        {
+          "slug": "vulnerability-tracking",
+          "name": "vulnerability tracking"
+        },
+        {
+          "slug": "incident-records",
+          "name": "incident records"
+        }
+      ]
+    },
+    {
+      "index": 76,
+      "slug": "privacy-and-data-rights",
+      "name": "Privacy and data rights",
+      "entities": [
+        {
+          "slug": "data-minimization",
+          "name": "data minimization"
+        },
+        {
+          "slug": "export-requests",
+          "name": "export requests"
+        },
+        {
+          "slug": "deletion-requests",
+          "name": "deletion requests"
+        },
+        {
+          "slug": "anonymization",
+          "name": "anonymization"
+        },
+        {
+          "slug": "pseudonymization",
+          "name": "pseudonymization"
+        },
+        {
+          "slug": "privacy-classification",
+          "name": "privacy classification"
+        },
+        {
+          "slug": "retention-checks",
+          "name": "retention checks"
+        },
+        {
+          "slug": "privacy-audit",
+          "name": "privacy audit"
+        }
+      ]
+    },
+    {
+      "index": 77,
+      "slug": "testing-and-quality-engineering",
+      "name": "Testing and quality engineering",
+      "entities": [
+        {
+          "slug": "unit-tests",
+          "name": "unit tests"
+        },
+        {
+          "slug": "integration-tests",
+          "name": "integration tests"
+        },
+        {
+          "slug": "contract-tests",
+          "name": "contract tests"
+        },
+        {
+          "slug": "property-tests",
+          "name": "property tests"
+        },
+        {
+          "slug": "fuzz-tests",
+          "name": "fuzz tests"
+        },
+        {
+          "slug": "regression-suites",
+          "name": "regression suites"
+        },
+        {
+          "slug": "load-tests",
+          "name": "load tests"
+        },
+        {
+          "slug": "test-coverage-reporting",
+          "name": "test coverage reporting"
+        }
+      ]
+    },
+    {
+      "index": 78,
+      "slug": "performance-engineering",
+      "name": "Performance engineering",
+      "entities": [
+        {
+          "slug": "latency-budgets",
+          "name": "latency budgets"
+        },
+        {
+          "slug": "throughput-tests",
+          "name": "throughput tests"
+        },
+        {
+          "slug": "allocation-profiling",
+          "name": "allocation profiling"
+        },
+        {
+          "slug": "query-plans",
+          "name": "query plans"
+        },
+        {
+          "slug": "benchmark-suites",
+          "name": "benchmark suites"
+        },
+        {
+          "slug": "memory-ceilings",
+          "name": "memory ceilings"
+        },
+        {
+          "slug": "cpu-profiling",
+          "name": "CPU profiling"
+        },
+        {
+          "slug": "performance-regression-alerts",
+          "name": "performance regression alerts"
+        }
+      ]
+    },
+    {
+      "index": 79,
+      "slug": "reliability-and-resilience",
+      "name": "Reliability and resilience",
+      "entities": [
+        {
+          "slug": "health-checks",
+          "name": "health checks"
+        },
+        {
+          "slug": "readiness-checks",
+          "name": "readiness checks"
+        },
+        {
+          "slug": "graceful-shutdown",
+          "name": "graceful shutdown"
+        },
+        {
+          "slug": "circuit-breakers",
+          "name": "circuit breakers"
+        },
+        {
+          "slug": "bulkheads",
+          "name": "bulkheads"
+        },
+        {
+          "slug": "retry-budgets",
+          "name": "retry budgets"
+        },
+        {
+          "slug": "failover-tests",
+          "name": "failover tests"
+        },
+        {
+          "slug": "recovery-objectives",
+          "name": "recovery objectives"
+        }
+      ]
+    },
+    {
+      "index": 80,
+      "slug": "deployment-and-infrastructure",
+      "name": "Deployment and infrastructure",
+      "entities": [
+        {
+          "slug": "container-images",
+          "name": "container images"
+        },
+        {
+          "slug": "configuration-validation",
+          "name": "configuration validation"
+        },
+        {
+          "slug": "environment-parity",
+          "name": "environment parity"
+        },
+        {
+          "slug": "secrets-injection",
+          "name": "secrets injection"
+        },
+        {
+          "slug": "migrations",
+          "name": "migrations"
+        },
+        {
+          "slug": "rollout-checks",
+          "name": "rollout checks"
+        },
+        {
+          "slug": "rollback-automation",
+          "name": "rollback automation"
+        },
+        {
+          "slug": "deployment-audit",
+          "name": "deployment audit"
+        }
+      ]
+    },
+    {
+      "index": 81,
+      "slug": "developer-experience-and-sdks",
+      "name": "Developer experience and SDKs",
+      "entities": [
+        {
+          "slug": "rust-sdk",
+          "name": "Rust SDK"
+        },
+        {
+          "slug": "typescript-client",
+          "name": "TypeScript client"
+        },
+        {
+          "slug": "python-client",
+          "name": "Python client"
+        },
+        {
+          "slug": "api-examples",
+          "name": "API examples"
+        },
+        {
+          "slug": "typed-errors",
+          "name": "typed errors"
+        },
+        {
+          "slug": "retry-helpers",
+          "name": "retry helpers"
+        },
+        {
+          "slug": "pagination-helpers",
+          "name": "pagination helpers"
+        },
+        {
+          "slug": "sdk-compatibility-tests",
+          "name": "SDK compatibility tests"
+        }
+      ]
+    },
+    {
+      "index": 82,
+      "slug": "cli-and-automation",
+      "name": "CLI and automation",
+      "entities": [
+        {
+          "slug": "configuration-files",
+          "name": "configuration files"
+        },
+        {
+          "slug": "command-discovery",
+          "name": "command discovery"
+        },
+        {
+          "slug": "structured-output",
+          "name": "structured output"
+        },
+        {
+          "slug": "batch-commands",
+          "name": "batch commands"
+        },
+        {
+          "slug": "exit-codes",
+          "name": "exit codes"
+        },
+        {
+          "slug": "shell-completion",
+          "name": "shell completion"
+        },
+        {
+          "slug": "noninteractive-mode",
+          "name": "noninteractive mode"
+        },
+        {
+          "slug": "command-audit",
+          "name": "command audit"
+        }
+      ]
+    },
+    {
+      "index": 83,
+      "slug": "plugin-and-extension-system",
+      "name": "Plugin and extension system",
+      "entities": [
+        {
+          "slug": "plugin-manifests",
+          "name": "plugin manifests"
+        },
+        {
+          "slug": "capability-declarations",
+          "name": "capability declarations"
+        },
+        {
+          "slug": "version-constraints",
+          "name": "version constraints"
+        },
+        {
+          "slug": "sandbox-policies",
+          "name": "sandbox policies"
+        },
+        {
+          "slug": "extension-discovery",
+          "name": "extension discovery"
+        },
+        {
+          "slug": "lifecycle-hooks",
+          "name": "lifecycle hooks"
+        },
+        {
+          "slug": "compatibility-checks",
+          "name": "compatibility checks"
+        },
+        {
+          "slug": "plugin-audit",
+          "name": "plugin audit"
+        }
+      ]
+    },
+    {
+      "index": 84,
+      "slug": "multi-tenant-billing-and-quotas",
+      "name": "Multi-tenant billing and quotas",
+      "entities": [
+        {
+          "slug": "usage-metering",
+          "name": "usage metering"
+        },
+        {
+          "slug": "quota-policies",
+          "name": "quota policies"
+        },
+        {
+          "slug": "tenant-limits",
+          "name": "tenant limits"
+        },
+        {
+          "slug": "compute-accounting",
+          "name": "compute accounting"
+        },
+        {
+          "slug": "storage-accounting",
+          "name": "storage accounting"
+        },
+        {
+          "slug": "export-accounting",
+          "name": "export accounting"
+        },
+        {
+          "slug": "usage-reports",
+          "name": "usage reports"
+        },
+        {
+          "slug": "quota-alerts",
+          "name": "quota alerts"
+        }
+      ]
+    },
+    {
+      "index": 85,
+      "slug": "administration-and-support",
+      "name": "Administration and support",
+      "entities": [
+        {
+          "slug": "system-settings",
+          "name": "system settings"
+        },
+        {
+          "slug": "user-support-records",
+          "name": "user support records"
+        },
+        {
+          "slug": "tenant-diagnostics",
+          "name": "tenant diagnostics"
+        },
+        {
+          "slug": "job-inspection",
+          "name": "job inspection"
+        },
+        {
+          "slug": "safe-replay",
+          "name": "safe replay"
+        },
+        {
+          "slug": "maintenance-notices",
+          "name": "maintenance notices"
+        },
+        {
+          "slug": "support-audit",
+          "name": "support audit"
+        }
+      ]
+    },
+    {
+      "index": 86,
+      "slug": "documentation-and-knowledge",
+      "name": "Documentation and knowledge",
+      "entities": [
+        {
+          "slug": "architecture-documentation",
+          "name": "architecture documentation"
+        },
+        {
+          "slug": "api-documentation",
+          "name": "API documentation"
+        },
+        {
+          "slug": "operator-runbooks",
+          "name": "operator runbooks"
+        },
+        {
+          "slug": "data-dictionaries",
+          "name": "data dictionaries"
+        },
+        {
+          "slug": "model-cards",
+          "name": "model cards"
+        },
+        {
+          "slug": "user-guides",
+          "name": "user guides"
+        },
+        {
+          "slug": "changelogs",
+          "name": "changelogs"
+        },
+        {
+          "slug": "searchable-docs",
+          "name": "searchable docs"
+        }
+      ]
+    },
+    {
+      "index": 87,
+      "slug": "licensing-and-intellectual-property",
+      "name": "Licensing and intellectual property",
+      "entities": [
+        {
+          "slug": "software-bill-of-materials",
+          "name": "software bill of materials"
+        },
+        {
+          "slug": "dependency-licences",
+          "name": "dependency licences"
+        },
+        {
+          "slug": "attribution-records",
+          "name": "attribution records"
+        },
+        {
+          "slug": "dataset-licences",
+          "name": "dataset licences"
+        },
+        {
+          "slug": "model-licences",
+          "name": "model licences"
+        },
+        {
+          "slug": "licence-compatibility",
+          "name": "licence compatibility"
+        },
+        {
+          "slug": "notices",
+          "name": "notices"
+        },
+        {
+          "slug": "provenance",
+          "name": "provenance"
+        }
+      ]
+    },
+    {
+      "index": 88,
+      "slug": "open-science-and-reproducibility",
+      "name": "Open science and reproducibility",
+      "entities": [
+        {
+          "slug": "protocol-records",
+          "name": "protocol records"
+        },
+        {
+          "slug": "environment-manifests",
+          "name": "environment manifests"
+        },
+        {
+          "slug": "pinned-dependencies",
+          "name": "pinned dependencies"
+        },
+        {
+          "slug": "random-seed-records",
+          "name": "random seed records"
+        },
+        {
+          "slug": "method-citations",
+          "name": "method citations"
+        },
+        {
+          "slug": "experiment-packages",
+          "name": "experiment packages"
+        },
+        {
+          "slug": "rerun-instructions",
+          "name": "rerun instructions"
+        },
+        {
+          "slug": "reproducibility-checks",
+          "name": "reproducibility checks"
+        }
+      ]
+    },
+    {
+      "index": 89,
+      "slug": "edge-and-offline-operations",
+      "name": "Edge and offline operations",
+      "entities": [
+        {
+          "slug": "offline-capture",
+          "name": "offline capture"
+        },
+        {
+          "slug": "local-queues",
+          "name": "local queues"
+        },
+        {
+          "slug": "synchronization-manifests",
+          "name": "synchronization manifests"
+        },
+        {
+          "slug": "conflict-resolution",
+          "name": "conflict resolution"
+        },
+        {
+          "slug": "stale-data-indicators",
+          "name": "stale-data indicators"
+        },
+        {
+          "slug": "local-cache-policies",
+          "name": "local cache policies"
+        },
+        {
+          "slug": "reconnect-handling",
+          "name": "reconnect handling"
+        },
+        {
+          "slug": "sync-audit",
+          "name": "sync audit"
+        }
+      ]
+    },
+    {
+      "index": 90,
+      "slug": "future-agriql-integration-contract",
+      "name": "Future AgriQL integration contract",
+      "entities": [
+        {
+          "slug": "query-submission-schema",
+          "name": "query submission schema"
+        },
+        {
+          "slug": "query-result-schema",
+          "name": "query result schema"
+        },
+        {
+          "slug": "type-metadata",
+          "name": "type metadata"
+        },
+        {
+          "slug": "spatial-query-contract",
+          "name": "spatial query contract"
+        },
+        {
+          "slug": "unit-semantics",
+          "name": "unit semantics"
+        },
+        {
+          "slug": "query-provenance",
+          "name": "query provenance"
+        },
+        {
+          "slug": "capability-discovery",
+          "name": "capability discovery"
+        },
+        {
+          "slug": "compatibility-tests",
+          "name": "compatibility tests"
+        }
+      ]
+    },
+    {
+      "index": 91,
+      "slug": "future-kutajkutambi-ai-integration-contract",
+      "name": "Future KutajKutambi AI integration contract",
+      "entities": [
+        {
+          "slug": "inference-request-schema",
+          "name": "inference request schema"
+        },
+        {
+          "slug": "agent-task-schema",
+          "name": "agent task schema"
+        },
+        {
+          "slug": "evidence-references",
+          "name": "evidence references"
+        },
+        {
+          "slug": "model-metadata",
+          "name": "model metadata"
+        },
+        {
+          "slug": "tool-permissions",
+          "name": "tool permissions"
+        },
+        {
+          "slug": "execution-status",
+          "name": "execution status"
+        },
+        {
+          "slug": "uncertainty-contract",
+          "name": "uncertainty contract"
+        },
+        {
+          "slug": "audit-linkage",
+          "name": "audit linkage"
+        }
+      ]
+    },
+    {
+      "index": 92,
+      "slug": "future-agricuda-integration-contract",
+      "name": "Future AgriCUDA integration contract",
+      "entities": [
+        {
+          "slug": "compute-job-schema",
+          "name": "compute job schema"
+        },
+        {
+          "slug": "buffer-descriptors",
+          "name": "buffer descriptors"
+        },
+        {
+          "slug": "supported-operations",
+          "name": "supported operations"
+        },
+        {
+          "slug": "device-capability-metadata",
+          "name": "device capability metadata"
+        },
+        {
+          "slug": "numerical-tolerance-contract",
+          "name": "numerical tolerance contract"
+        },
+        {
+          "slug": "fallback-execution",
+          "name": "fallback execution"
+        },
+        {
+          "slug": "profiling-results",
+          "name": "profiling results"
+        },
+        {
+          "slug": "error-contract",
+          "name": "error contract"
+        }
+      ]
+    },
+    {
+      "index": 93,
+      "slug": "future-apsnetwork-integration-contract",
+      "name": "Future APSNetwork integration contract",
+      "entities": [
+        {
+          "slug": "telemetry-exchange-schema",
+          "name": "telemetry exchange schema"
+        },
+        {
+          "slug": "network-status-events",
+          "name": "network status events"
+        },
+        {
+          "slug": "edge-job-delivery",
+          "name": "edge job delivery"
+        },
+        {
+          "slug": "device-identity-mapping",
+          "name": "device identity mapping"
+        },
+        {
+          "slug": "link-quality-metrics",
+          "name": "link quality metrics"
+        },
+        {
+          "slug": "command-acknowledgement",
+          "name": "command acknowledgement"
+        },
+        {
+          "slug": "offline-status",
+          "name": "offline status"
+        },
+        {
+          "slug": "access-policy",
+          "name": "access policy"
+        }
+      ]
+    },
+    {
+      "index": 94,
+      "slug": "future-nityaga-rtos-integration-contract",
+      "name": "Future Nityaga RTOS integration contract",
+      "entities": [
+        {
+          "slug": "device-capability-schema",
+          "name": "device capability schema"
+        },
+        {
+          "slug": "firmware-identity",
+          "name": "firmware identity"
+        },
+        {
+          "slug": "telemetry-schema",
+          "name": "telemetry schema"
+        },
+        {
+          "slug": "time-synchronization-metadata",
+          "name": "time synchronization metadata"
+        },
+        {
+          "slug": "command-safety-envelope",
+          "name": "command safety envelope"
+        },
+        {
+          "slug": "device-health",
+          "name": "device health"
+        },
+        {
+          "slug": "version-compatibility",
+          "name": "version compatibility"
+        },
+        {
+          "slug": "audit-linkage",
+          "name": "audit linkage"
+        }
+      ]
+    },
+    {
+      "index": 95,
+      "slug": "hardware-and-fpga-research-interfaces",
+      "name": "Hardware and FPGA research interfaces",
+      "entities": [
+        {
+          "slug": "accelerator-manifests",
+          "name": "accelerator manifests"
+        },
+        {
+          "slug": "device-inventory",
+          "name": "device inventory"
+        },
+        {
+          "slug": "bitstream-metadata",
+          "name": "bitstream metadata"
+        },
+        {
+          "slug": "hardware-capability-profiles",
+          "name": "hardware capability profiles"
+        },
+        {
+          "slug": "test-vectors",
+          "name": "test vectors"
+        },
+        {
+          "slug": "driver-compatibility",
+          "name": "driver compatibility"
+        },
+        {
+          "slug": "benchmark-records",
+          "name": "benchmark records"
+        },
+        {
+          "slug": "safety-constraints",
+          "name": "safety constraints"
+        }
+      ]
+    },
+    {
+      "index": 96,
+      "slug": "agricultural-decision-provenance",
+      "name": "Agricultural decision provenance",
+      "entities": [
+        {
+          "slug": "evidence-graph",
+          "name": "evidence graph"
+        },
+        {
+          "slug": "recommendation-inputs",
+          "name": "recommendation inputs"
+        },
+        {
+          "slug": "model-version-references",
+          "name": "model version references"
+        },
+        {
+          "slug": "rule-version-references",
+          "name": "rule version references"
+        },
+        {
+          "slug": "approval-identity",
+          "name": "approval identity"
+        },
+        {
+          "slug": "decision-timestamps",
+          "name": "decision timestamps"
+        },
+        {
+          "slug": "outcome-observations",
+          "name": "outcome observations"
+        },
+        {
+          "slug": "decision-review",
+          "name": "decision review"
+        }
+      ]
+    },
+    {
+      "index": 97,
+      "slug": "data-interoperability-standards",
+      "name": "Data interoperability standards",
+      "entities": [
+        {
+          "slug": "schema-mappings",
+          "name": "schema mappings"
+        },
+        {
+          "slug": "controlled-vocabularies",
+          "name": "controlled vocabularies"
+        },
+        {
+          "slug": "unit-mappings",
+          "name": "unit mappings"
+        },
+        {
+          "slug": "crs-mappings",
+          "name": "CRS mappings"
+        },
+        {
+          "slug": "external-identifiers",
+          "name": "external identifiers"
+        },
+        {
+          "slug": "versioned-adapters",
+          "name": "versioned adapters"
+        },
+        {
+          "slug": "conformance-reports",
+          "name": "conformance reports"
+        },
+        {
+          "slug": "interoperability-tests",
+          "name": "interoperability tests"
+        }
+      ]
+    },
+    {
+      "index": 98,
+      "slug": "scientific-method-governance",
+      "name": "Scientific method governance",
+      "entities": [
+        {
+          "slug": "method-registry",
+          "name": "method registry"
+        },
+        {
+          "slug": "parameter-schemas",
+          "name": "parameter schemas"
+        },
+        {
+          "slug": "calibration-records",
+          "name": "calibration records"
+        },
+        {
+          "slug": "validation-datasets",
+          "name": "validation datasets"
+        },
+        {
+          "slug": "accepted-ranges",
+          "name": "accepted ranges"
+        },
+        {
+          "slug": "uncertainty-methods",
+          "name": "uncertainty methods"
+        },
+        {
+          "slug": "method-approvals",
+          "name": "method approvals"
+        },
+        {
+          "slug": "method-deprecation",
+          "name": "method deprecation"
+        }
+      ]
+    },
+    {
+      "index": 99,
+      "slug": "quality-assurance-and-release-governance",
+      "name": "Quality assurance and release governance",
+      "entities": [
+        {
+          "slug": "release-criteria",
+          "name": "release criteria"
+        },
+        {
+          "slug": "change-approvals",
+          "name": "change approvals"
+        },
+        {
+          "slug": "release-manifests",
+          "name": "release manifests"
+        },
+        {
+          "slug": "compatibility-matrices",
+          "name": "compatibility matrices"
+        },
+        {
+          "slug": "regression-gates",
+          "name": "regression gates"
+        },
+        {
+          "slug": "migration-validation",
+          "name": "migration validation"
+        },
+        {
+          "slug": "release-notes",
+          "name": "release notes"
+        },
+        {
+          "slug": "release-evidence",
+          "name": "release evidence"
+        }
+      ]
+    },
+    {
+      "index": 100,
+      "slug": "platform-cost-and-capacity-analytics",
+      "name": "Platform cost and capacity analytics",
+      "entities": [
+        {
+          "slug": "service-usage",
+          "name": "service usage"
+        },
+        {
+          "slug": "storage-growth",
+          "name": "storage growth"
+        },
+        {
+          "slug": "compute-usage",
+          "name": "compute usage"
+        },
+        {
+          "slug": "queue-saturation",
+          "name": "queue saturation"
+        },
+        {
+          "slug": "cost-attribution",
+          "name": "cost attribution"
+        },
+        {
+          "slug": "capacity-forecasts",
+          "name": "capacity forecasts"
+        },
+        {
+          "slug": "quota-scenarios",
+          "name": "quota scenarios"
+        },
+        {
+          "slug": "optimization-recommendations",
+          "name": "optimization recommendations"
+        }
+      ]
+    }
+  ]
+}

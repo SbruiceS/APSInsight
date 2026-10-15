@@ -1,0 +1,34 @@
+{
+  "buffers": [
+    {
+      "alignment": 8,
+      "dtype": "f64",
+      "len": 3,
+      "name": "red",
+      "role": "input",
+      "unit": "1"
+    },
+    {
+      "alignment": 8,
+      "dtype": "f64",
+      "len": 3,
+      "name": "nir",
+      "role": "input",
+      "unit": "1"
+    },
+    {
+      "alignment": 8,
+      "dtype": "f64",
+      "len": 3,
+      "name": "ndvi",
+      "role": "output",
+      "unit": "1"
+    }
+  ],
+  "operation": "index.ndvi",
+  "scalars": {},
+  "tolerance": {
+    "abs": 1e-6,
+    "rel": 1e-6
+  }
+}

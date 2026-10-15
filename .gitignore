@@ -1,0 +1,6 @@
+/target
+/.apsi-data
+web/node_modules
+web/dist
+web/.angular
+*.tmp

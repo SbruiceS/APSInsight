@@ -1,0 +1,19 @@
+{
+  "deadline_ms": 10000,
+  "evidence": [
+    {
+      "content_sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "record_id": "rec_synthetic_1",
+      "version": 3
+    }
+  ],
+  "instruction": "Suggest an irrigation interval for the referenced synthetic field.",
+  "task": "recommendation",
+  "tenant": "synthetic-tenant",
+  "tools": [
+    {
+      "scope": "read",
+      "tool": "records.read"
+    }
+  ]
+}

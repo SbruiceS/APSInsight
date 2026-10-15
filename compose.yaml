@@ -1,0 +1,23 @@
+# Local development stack. No secrets are committed: export APSI_TOKENS before
+# `docker compose up`, e.g.
+#   export APSI_TOKENS="$(openssl rand -hex 24):demo:ada:admin"
+# Put a TLS-terminating proxy in front for anything beyond localhost.
+services:
+  apsinsight:
+    build: .
+    image: apsinsight:local
+    environment:
+      APSI_TOKENS: ${APSI_TOKENS:?set APSI_TOKENS (token:tenant:subject:role, comma separated)}
+      APSI_RATE_LIMIT: ${APSI_RATE_LIMIT:-600}
+      RUST_LOG: ${RUST_LOG:-info}
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - apsinsight-data:/var/lib/apsinsight
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+
+volumes:
+  apsinsight-data:

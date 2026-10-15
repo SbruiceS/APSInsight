@@ -1,0 +1,14 @@
+{
+  "action": "open",
+  "actuator": "valve_1",
+  "command_id": "cmd_synthetic_1",
+  "device_id": "dev_synthetic_1",
+  "expires_at": "2026-10-15T08:05:00Z",
+  "interlocks": [
+    "pressure_ok"
+  ],
+  "issued_at": "2026-10-15T08:00:00Z",
+  "issued_by": "user_synthetic",
+  "max_duration_ms": 600000,
+  "requires_ack": true
+}

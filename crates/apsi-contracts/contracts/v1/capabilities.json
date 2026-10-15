@@ -1,0 +1,85 @@
+[
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "query.submit"
+    ],
+    "optional": true,
+    "product": "agriql",
+    "product_name": "AgriQL"
+  },
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "inference.run",
+      "agent.task"
+    ],
+    "optional": true,
+    "product": "kutajkutambi-ai",
+    "product_name": "KutajKutambi AI"
+  },
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "compute.execute",
+      "compute.cpu-fallback"
+    ],
+    "optional": true,
+    "product": "agricuda",
+    "product_name": "AgriCUDA"
+  },
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "telemetry.ingest",
+      "edge-job.deliver"
+    ],
+    "optional": true,
+    "product": "apsnetwork",
+    "product_name": "APSNetwork"
+  },
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "device.capabilities",
+      "device.command"
+    ],
+    "optional": true,
+    "product": "nityaga-rtos",
+    "product_name": "Nityaga RTOS"
+  },
+  {
+    "availability": {
+      "reason": "planned ASPF product; not yet created and not deployed with this build",
+      "state": "unavailable"
+    },
+    "contract_version": "1.0",
+    "operations": [
+      "accelerator.load",
+      "compute.execute"
+    ],
+    "optional": true,
+    "product": "accelerator",
+    "product_name": "Hardware accelerator (e.g. GreenPlus FPGA)"
+  }
+]

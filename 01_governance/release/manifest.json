@@ -1,0 +1,36 @@
+{
+  "release": "0.1.0",
+  "state": "unreleased",
+  "workspace_version": "0.1.0",
+  "msrv": "1.88",
+  "components": {
+    "apsi-core": "0.1.0",
+    "apsi-science": "0.1.0",
+    "apsi-contracts": "0.1.0",
+    "apsi-server": "0.1.0",
+    "apsi-cli": "0.1.0",
+    "web": "see web/package.json"
+  },
+  "interfaces": {
+    "http_api": "v1",
+    "openapi": "10_backend_api/openapi.v1.yaml",
+    "export_format": "apsinsight.export v1",
+    "record_schema": "03_domain_model/metadata-schemas/record.v1.schema.json",
+    "aspf_contracts": {
+      "agriql": "1.0",
+      "kutajkutambi-ai": "1.0",
+      "agricuda": "1.0",
+      "apsnetwork": "1.0",
+      "nityaga-rtos": "1.0",
+      "accelerator": "1.0"
+    }
+  },
+  "evidence": {
+    "verify": "node tools/verify.mjs",
+    "feature_status": "docs/STATUS.md",
+    "traceability": "docs/traceability.csv",
+    "sbom": "target/sbom (produced by node tools/sbom.mjs)"
+  },
+  "signed": false,
+  "notes": "Release artifacts are not signed yet; signing is a release-governance gap recorded in docs/STATUS.md."
+}

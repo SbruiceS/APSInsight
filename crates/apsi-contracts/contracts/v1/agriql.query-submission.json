@@ -1,0 +1,27 @@
+{
+  "language_version": "1.0",
+  "max_rows": 1000,
+  "parameters": {
+    "min_yield": {
+      "type": "number",
+      "unit": "t/ha",
+      "value": 2.5
+    },
+    "season_start": {
+      "type": "timestamp",
+      "value": "2026-06-01T00:00:00Z"
+    }
+  },
+  "query": "FROM yield_observations WHERE yield >= :min_yield AND observed_at >= :season_start SELECT field_id, yield",
+  "spatial": {
+    "bbox": [
+      77.0,
+      28.0,
+      78.0,
+      29.0
+    ],
+    "crs": "EPSG:4326"
+  },
+  "tenant": "synthetic-tenant",
+  "timeout_ms": 30000
+}

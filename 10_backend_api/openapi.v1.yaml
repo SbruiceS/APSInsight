@@ -1,0 +1,487 @@
+openapi: 3.1.0
+info:
+  title: APSInsight API
+  version: "v1"
+  summary: Tenant-scoped agricultural records, analytics and governance.
+  description: |
+    Every response is an envelope: `{ "data": ..., "meta": { "api_version": "v1" } }` on success and
+    `{ "error": { "code", "message", "retryable", "details" }, "meta": ... }` on failure.
+    The tenant is taken from the bearer token, never from the request. Records of other tenants are
+    reported as `not_found`. Limits: 16 MiB body, 10,000 bulk items, page size ≤ 500, per-token rate
+    limit (default 600/min, `Retry-After` on 429). Every response carries `x-request-id`; send your own to correlate.
+    The test `openapi_documents_every_route` fails if a route of the router is missing here.
+  license:
+    name: Apache-2.0
+servers:
+  - url: http://127.0.0.1:8080
+    description: Local development (put a TLS proxy in front in production)
+security:
+  - bearer: []
+tags:
+  - name: system
+  - name: register
+  - name: records
+  - name: governance
+  - name: automation
+  - name: integrations
+paths:
+  /health:
+    get:
+      tags: [system]
+      summary: Liveness and version. Unauthenticated; reveals no tenant data.
+      security: []
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /metrics:
+    get:
+      tags: [system]
+      summary: Prometheus text format 0.0.4. Needs the audit permission (auditor or admin).
+      responses:
+        "200":
+          description: Metrics
+          content:
+            text/plain: { schema: { type: string } }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/v1/me:
+    get:
+      tags: [system]
+      summary: The authenticated principal (subject, tenant, roles).
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "401": { $ref: "#/components/responses/Error" }
+  /api/v1/catalog:
+    get:
+      tags: [register]
+      summary: Domains, capabilities, entity kinds and features.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/features:
+    get:
+      tags: [register]
+      summary: Search the 3,100-feature register.
+      parameters:
+        - { name: domain, in: query, schema: { type: string } }
+        - { name: capability, in: query, schema: { type: string } }
+        - { name: q, in: query, schema: { type: string } }
+        - { $ref: "#/components/parameters/offset" }
+        - { $ref: "#/components/parameters/limit" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/features/{id}:
+    get:
+      tags: [register]
+      summary: One feature with its traceability row (status, gap, code, tests, docs).
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, pattern: "^APSI-F[0-9]{4}$" } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "404": { $ref: "#/components/responses/Error" }
+  /api/v1/traceability:
+    get:
+      tags: [register]
+      summary: The full traceability matrix with honest status per feature.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/overview:
+    get:
+      tags: [records]
+      summary: Record counts and quality across all domains for the caller's tenant.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/domains/{domain}/dashboard:
+    get:
+      tags: [records]
+      summary: Per-entity summaries for one domain.
+      parameters: [{ $ref: "#/components/parameters/domain" }]
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "404": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/search:
+    post:
+      tags: [records]
+      summary: Structured search (filters with eq/ne/lt/lte/gt/gte/contains/in, facets, sort, pagination).
+      parameters: [{ $ref: "#/components/parameters/domain" }]
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "400": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/entities/{entity}/records:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [records]
+      summary: List or search records of an entity kind.
+      parameters:
+        - { name: q, in: query, schema: { type: string } }
+        - { name: lifecycle, in: query, schema: { enum: [draft, active, archived] } }
+        - { name: tags, in: query, description: comma-separated, schema: { type: string } }
+        - { name: facets, in: query, description: comma-separated attribute names, schema: { type: string } }
+        - { name: include_archived, in: query, schema: { type: boolean } }
+        - { name: sort, in: query, schema: { type: string } }
+        - { name: desc, in: query, schema: { type: boolean } }
+        - { $ref: "#/components/parameters/offset" }
+        - { $ref: "#/components/parameters/limit" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    post:
+      tags: [records]
+      summary: Create a record (validated against the current schema and rules).
+      requestBody: { $ref: "#/components/requestBodies/NewRecord" }
+      responses:
+        "201": { $ref: "#/components/responses/Ok" }
+        "409": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/entities/{entity}/validate:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    post:
+      tags: [records]
+      summary: Validation preview; returns the machine-readable report without storing anything.
+      requestBody: { $ref: "#/components/requestBodies/NewRecord" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/domains/{domain}/entities/{entity}/bulk:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    post:
+      tags: [records]
+      summary: Bulk create/upsert with dry_run, per-item results and idempotency_key.
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "413": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/entities/{entity}/import:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    post:
+      tags: [records]
+      summary: Import CSV, JSON or NDJSON with preview (dry_run) and per-row errors.
+      parameters:
+        - { name: format, in: query, schema: { enum: [csv, json, ndjson] } }
+        - { name: dry_run, in: query, schema: { type: boolean } }
+        - { name: upsert, in: query, schema: { type: boolean } }
+        - { name: idempotency_key, in: query, schema: { type: string } }
+        - { name: Idempotency-Key, in: header, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          text/csv: { schema: { type: string } }
+          application/json: { schema: {} }
+          application/x-ndjson: { schema: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "422": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/entities/{entity}/export:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [records]
+      summary: Export with schema version, timestamps and provenance.
+      parameters:
+        - { name: format, in: query, schema: { enum: [json, ndjson, csv, geojson] } }
+        - { name: include_archived, in: query, schema: { type: boolean } }
+      responses:
+        "200":
+          description: Exported document in the requested format
+          content:
+            application/json: { schema: {} }
+            text/csv: { schema: { type: string } }
+            application/x-ndjson: { schema: { type: string } }
+            application/geo+json: { schema: {} }
+  /api/v1/domains/{domain}/entities/{entity}/schemas:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [governance]
+      summary: All schema versions of the entity kind.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    post:
+      tags: [governance]
+      summary: Publish a new schema version (admin). Breaking changes need allow_breaking=true.
+      parameters:
+        - { name: allow_breaking, in: query, schema: { type: boolean } }
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "201": { $ref: "#/components/responses/Ok" }
+        "409": { $ref: "#/components/responses/Error" }
+  /api/v1/domains/{domain}/entities/{entity}/rules:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [governance]
+      summary: Validation rules with severities.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    put:
+      tags: [governance]
+      summary: Replace the rule set (admin; at most 100 rules).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/domains/{domain}/entities/{entity}/quality:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [records]
+      summary: Quality indicators (completeness, validity, freshness, provenance coverage; null when empty).
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/domains/{domain}/entities/{entity}/retention:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    get:
+      tags: [governance]
+      summary: Retention policy.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    put:
+      tags: [governance]
+      summary: Set the retention policy (admin).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/domains/{domain}/entities/{entity}/migrations:
+    parameters: [{ $ref: "#/components/parameters/domain" }, { $ref: "#/components/parameters/entity" }]
+    post:
+      tags: [governance]
+      summary: Preview (dry_run) or apply an all-or-nothing schema migration (admin).
+      parameters: [{ $ref: "#/components/parameters/dry_run" }]
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "422": { $ref: "#/components/responses/Error" }
+  /api/v1/records/{id}:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    get:
+      tags: [records]
+      summary: Get a record. Sends an ETag equal to the version.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "404": { $ref: "#/components/responses/Error" }
+    patch:
+      tags: [records]
+      summary: Update with optimistic concurrency (If-Match header or expected_version).
+      parameters:
+        - { name: If-Match, in: header, schema: { type: string } }
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "409": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [records]
+      summary: Permanently delete an archived record that is not under legal hold (admin).
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "409": { $ref: "#/components/responses/Error" }
+  /api/v1/records/{id}/lifecycle:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    post:
+      tags: [records]
+      summary: Transition draft/active/archived ({ to, expected_version }).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "422": { $ref: "#/components/responses/Error" }
+  /api/v1/records/{id}/history:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    get:
+      tags: [records]
+      summary: All versions of a record.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/records/{id}/diff:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    get:
+      tags: [records]
+      summary: Field-level diff between two versions.
+      parameters:
+        - { name: from, in: query, required: true, schema: { type: integer, minimum: 1 } }
+        - { name: to, in: query, required: true, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/records/{id}/rollback:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    post:
+      tags: [records]
+      summary: Roll back to an earlier version as a new version ({ to_version, expected_version }).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/records/{id}/legal-hold:
+    parameters: [{ $ref: "#/components/parameters/record_id" }]
+    put:
+      tags: [governance]
+      summary: Set or clear legal hold ({ hold }) (admin).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/retention/apply:
+    post:
+      tags: [governance]
+      summary: Apply (or preview) retention across the tenant (admin).
+      parameters: [{ $ref: "#/components/parameters/dry_run" }]
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/migrations/{id}/rollback:
+    post:
+      tags: [governance]
+      summary: Roll back an applied migration; edited records are reported as conflicts.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/notification-rules:
+    get:
+      tags: [automation]
+      summary: Notification rules.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    post:
+      tags: [automation]
+      summary: Create a rule (editor; https webhooks only; deduplication window).
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "201": { $ref: "#/components/responses/Ok" }
+  /api/v1/notification-rules/{id}:
+    delete:
+      tags: [automation]
+      summary: Delete a notification rule.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/notifications:
+    get:
+      tags: [automation]
+      summary: Outbox of queued notifications (delivery is performed by an external worker).
+      parameters: [{ $ref: "#/components/parameters/limit" }]
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/workflows:
+    get:
+      tags: [automation]
+      summary: Registered workflows.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+    post:
+      tags: [automation]
+      summary: Register a type-checked workflow definition.
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "201": { $ref: "#/components/responses/Ok" }
+        "422": { $ref: "#/components/responses/Error" }
+  /api/v1/workflows/{id}/runs:
+    post:
+      tags: [automation]
+      summary: Run a workflow synchronously; records definition hash and data fingerprint.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - { name: version, in: query, schema: { type: integer } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/workflow-runs:
+    get:
+      tags: [automation]
+      summary: Workflow run history.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/integrations:
+    get:
+      tags: [integrations]
+      summary: Capability discovery for planned ASPF products. All are optional and reported unavailable in this build.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/compute:
+    get:
+      tags: [automation]
+      summary: Science functions with input/output descriptions.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+  /api/v1/compute/{function}:
+    post:
+      tags: [automation]
+      summary: Run a science function (input ≤ 8 MiB). Invalid inputs are rejected, never coerced.
+      parameters:
+        - { name: function, in: path, required: true, schema: { type: string, examples: ["indices.compute", "units.convert"] } }
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "400": { $ref: "#/components/responses/Error" }
+  /api/v1/audit:
+    get:
+      tags: [governance]
+      summary: Hash-chained audit events (auditor or admin).
+      parameters:
+        - { $ref: "#/components/parameters/limit" }
+        - { name: action, in: query, schema: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/v1/audit/verify:
+    get:
+      tags: [governance]
+      summary: Verify the audit hash chain.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      description: Opaque token configured with --tokens; only its SHA-256 hash is stored.
+  parameters:
+    domain: { name: domain, in: path, required: true, schema: { $ref: "#/components/schemas/Slug" } }
+    entity: { name: entity, in: path, required: true, schema: { $ref: "#/components/schemas/Slug" } }
+    record_id: { name: id, in: path, required: true, schema: { type: string, pattern: "^rec_[0-9a-f]{32}$" } }
+    offset: { name: offset, in: query, schema: { type: integer, minimum: 0 } }
+    limit: { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 500 } }
+    dry_run: { name: dry_run, in: query, schema: { type: boolean } }
+  requestBodies:
+    Json:
+      required: true
+      content:
+        application/json: { schema: {} }
+    NewRecord:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [name]
+            properties:
+              name: { type: string, minLength: 1, maxLength: 256 }
+              attributes: { type: object }
+              tags: { type: array, items: { type: string } }
+              source: { type: object, properties: { system: { type: string }, id: { type: string } } }
+              lifecycle: { enum: [draft, active] }
+  responses:
+    Ok:
+      description: Success envelope
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data, meta]
+            properties:
+              data: {}
+              meta: { $ref: "#/components/schemas/Meta" }
+    Error:
+      description: Failure envelope
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error, meta]
+            properties:
+              error: { $ref: "#/components/schemas/Error" }
+              meta: { $ref: "#/components/schemas/Meta" }
+  schemas:
+    Slug: { type: string, pattern: "^[a-z0-9][a-z0-9_-]{0,63}$" }
+    Meta:
+      type: object
+      properties:
+        api_version: { const: v1 }
+    Error:
+      type: object
+      required: [code, message, retryable]
+      properties:
+        code:
+          enum: [invalid_input, validation_failed, not_found, version_conflict, conflict, legal_hold, lifecycle_violation, unauthenticated, forbidden, rate_limited, payload_too_large, storage_unavailable, internal]
+        message: { type: string }
+        retryable: { type: boolean }
+        details: {}
+    Record:
+      $ref: "../03_domain_model/metadata-schemas/record.v1.schema.json"

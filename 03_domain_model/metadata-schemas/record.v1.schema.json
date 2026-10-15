@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apsinsight.invalid/schemas/record.v1.schema.json",
+  "title": "APSInsight record envelope v1",
+  "description": "The envelope shared by every entity kind. Attribute contents are governed by the per-entity schema (GET .../schemas). Kept in step with crates/apsi-core/src/record.rs by the test record_envelope_matches_published_json_schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "tenant", "domain", "entity", "schema_version", "version", "lifecycle", "name", "attributes", "tags", "owner", "legal_hold", "created_at", "updated_at", "created_by", "updated_by", "provenance"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^rec_[0-9a-f]{32}$", "description": "Opaque, time-ordered (UUIDv7) identifier." },
+    "tenant": { "$ref": "#/$defs/slug" },
+    "domain": { "$ref": "#/$defs/slug" },
+    "entity": { "$ref": "#/$defs/slug" },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "version": { "type": "integer", "minimum": 1, "description": "Incremented by every accepted change." },
+    "lifecycle": { "enum": ["draft", "active", "archived"] },
+    "name": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "attributes": { "type": "object", "description": "Validated against the entity schema. Quantities carry a unit (attribute `unit` or the schema field unit)." },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "id"],
+      "properties": { "system": { "type": "string", "minLength": 1, "maxLength": 256 }, "id": { "type": "string", "minLength": 1, "maxLength": 256 } },
+      "description": "Identity in the originating system; unique per tenant and entity kind."
+    },
+    "owner": { "type": "string" },
+    "legal_hold": { "type": "boolean" },
+    "created_at": { "$ref": "#/$defs/timestamp" },
+    "updated_at": { "$ref": "#/$defs/timestamp" },
+    "created_by": { "type": "string" },
+    "updated_by": { "type": "string" },
+    "archived_at": { "$ref": "#/$defs/timestamp" },
+    "provenance": { "type": "array", "items": { "$ref": "#/$defs/provenance" } }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "RFC 3339, UTC." },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at", "actor", "actor_kind", "action"],
+      "properties": {
+        "at": { "$ref": "#/$defs/timestamp" },
+        "actor": { "type": "string" },
+        "actor_kind": { "enum": ["user", "service"] },
+        "action": { "type": "string" },
+        "source": { "type": "object", "required": ["system", "id"], "properties": { "system": { "type": "string" }, "id": { "type": "string" } } },
+        "transformation": { "type": "string" },
+        "inputs": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

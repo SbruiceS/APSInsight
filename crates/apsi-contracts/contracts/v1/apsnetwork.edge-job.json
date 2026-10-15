@@ -1,0 +1,9 @@
+{
+  "expires_at": "2026-10-15T09:00:00Z",
+  "job_id": "job_synthetic_1",
+  "kind": "sample.sensors",
+  "payload": {
+    "interval_s": 600
+  },
+  "target_device": "dev_synthetic_1"
+}
