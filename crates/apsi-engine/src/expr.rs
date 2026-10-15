@@ -254,10 +254,10 @@ impl Expr {
                     _ => "exp",
                 };
                 let x = numeric(a.infer(schema, notes)?, name)?;
-                if let Some(u) = &x.unit {
-                    if dimension(u)? != Dimension::NONE {
-                        return Err(EngineError::Unit(format!("{name} needs a dimensionless input, got `{u}`")));
-                    }
+                if let Some(u) = &x.unit
+                    && dimension(u)? != Dimension::NONE
+                {
+                    return Err(EngineError::Unit(format!("{name} needs a dimensionless input, got `{u}`")));
                 }
                 t(DataType::Float64, if name == "sqrt" { None } else { Some("1".into()) })
             }
@@ -320,10 +320,10 @@ impl Expr {
         folded.columns(&mut cols);
         if cols.is_empty() && !matches!(folded, Self::Convert(..)) && !folded.has_convert() {
             let one = Batch::empty(Schema::default());
-            if let Ok(c) = folded.eval_n(&one, 1) {
-                if let Some(l) = literal_of(&c) {
-                    return Self::Lit(l);
-                }
+            if let Ok(c) = folded.eval_n(&one, 1)
+                && let Some(l) = literal_of(&c)
+            {
+                return Self::Lit(l);
             }
         }
         folded
@@ -451,12 +451,13 @@ fn arith_type(op: Arith, x: ExprType, y: ExprType, notes: &mut Vec<String>) -> R
     let unit = match op {
         Arith::Add | Arith::Sub => {
             same_unit(name, &x, &y)?;
-            if matches!(op, Arith::Add) && !x.literal && !y.literal {
-                if let Some(u) = &x.unit {
-                    if dimension(u)? == Dimension::TEMPERATURE {
-                        return Err(EngineError::Unit("cannot add two absolute temperatures; add a temperature difference instead".into()));
-                    }
-                }
+            if matches!(op, Arith::Add)
+                && !x.literal
+                && !y.literal
+                && let Some(u) = &x.unit
+                && dimension(u)? == Dimension::TEMPERATURE
+            {
+                return Err(EngineError::Unit("cannot add two absolute temperatures; add a temperature difference instead".into()));
             }
             x.unit.or(y.unit)
         }

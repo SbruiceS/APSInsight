@@ -468,3 +468,79 @@ async fn api_status_reports_honest_completion_metrics() {
     let agriql = domains.iter().find(|x| x["domain"] == "future-agriql-integration-contract").unwrap();
     assert_eq!(agriql["counts"]["blocked-external"], 21, "a planned product is never reported as working");
 }
+
+#[tokio::test]
+async fn api_compute_engine_plans_runs_and_queries_tenant_records() {
+    let app = app();
+    for (name, v) in [("plot-1", 4.2), ("plot-2", 5.1), ("plot-3", 6.3)] {
+        let r = call(&app, Method::POST, &records(), Some(EDITOR), Some(json!({ "name": name, "attributes": { "value": v, "unit": "t/ha" } }))).await;
+        assert_eq!(r.status, StatusCode::CREATED, "{}", r.text);
+    }
+    // Another tenant's data must never appear.
+    call(&app, Method::POST, &records(), Some(OTHER), Some(json!({ "name": "rival", "attributes": { "value": 99.0, "unit": "t/ha" } }))).await;
+
+    assert_eq!(call(&app, Method::GET, "/api/v1/engine", None, None).await.status, StatusCode::UNAUTHORIZED);
+    let caps = call(&app, Method::GET, "/api/v1/engine", Some(VIEWER), None).await.data();
+    assert_eq!(caps["backends"].as_array().unwrap().len(), 3);
+    assert_eq!(caps["backends"][2]["available"], false, "no accelerator product exists");
+
+    let tables = call(&app, Method::GET, "/api/v1/engine/tables", Some(VIEWER), None).await.data();
+    assert_eq!(tables[0]["table"], "crop_yield_and_production__yield_observations");
+    assert_eq!(tables[0]["rows"], 3);
+
+    let wf = json!({
+        "nodes": [
+            {"id": "y", "op": "scan", "domain": D, "entity": E},
+            {"id": "kg", "op": "project", "input": "y", "columns": [
+                {"name": "name", "expr": {"col": "name"}},
+                {"name": "kg_ha", "expr": {"convert": [{"col": "value"}, "kg/ha"]}}]},
+            {"id": "big", "op": "filter", "input": "kg", "predicate": {"gt": [{"col": "kg_ha"}, {"lit": 5000}]}},
+            {"id": "stats", "op": "aggregate", "input": "big", "aggregates": [
+                {"name": "n", "func": "count", "column": "kg_ha"}, {"name": "mean", "func": "mean", "column": "kg_ha"}]}
+        ],
+        "outputs": ["stats", "big"],
+        "checks": [{"node": "stats", "column": "mean", "min": 0, "max": 20000}]
+    });
+    let plan = call(&app, Method::POST, "/api/v1/engine/plan", Some(VIEWER), Some(wf.clone())).await;
+    assert_eq!(plan.status, StatusCode::OK, "{}", plan.text);
+    assert!(plan.data()["costs"].as_array().unwrap().iter().all(|c| c["backend"] == "cpu"));
+    let run = call(&app, Method::POST, "/api/v1/engine/run", Some(VIEWER), Some(wf.clone())).await;
+    assert_eq!(run.status, StatusCode::OK, "{}", run.text);
+    let d = run.data();
+    assert_eq!(d["outputs"]["stats"]["rows"][0][0], 2, "5100 and 6300 kg/ha; the rival tenant's 99 t/ha is invisible");
+    assert_eq!(d["outputs"]["stats"]["rows"][0][1], 5700.0);
+    assert_eq!(d["outputs"]["stats"]["columns"][1]["unit"], "kg/ha");
+    assert!(d["checks"].as_array().unwrap().iter().all(|c| c["passed"] == true));
+    assert!(!d["profile"].as_array().unwrap().is_empty());
+
+    let pq = call(&app, Method::POST, "/api/v1/engine/run?format=parquet&output=big", Some(VIEWER), Some(wf.clone())).await;
+    assert_eq!(pq.status, StatusCode::OK);
+    assert_eq!(pq.headers["content-type"], "application/vnd.apache.parquet");
+    assert!(pq.headers["content-disposition"].to_str().unwrap().contains("big.parquet"));
+    let bad = call(&app, Method::POST, "/api/v1/engine/run?format=parquet&output=zzz", Some(VIEWER), Some(wf)).await;
+    assert_eq!(bad.code(), "invalid_input");
+
+    // Unit errors are rejected before anything runs, with the node named.
+    let bad_units = json!({"nodes": [{"id": "y", "op": "scan", "domain": D, "entity": E},
+        {"id": "p", "op": "project", "input": "y", "columns": [{"name": "x", "expr": {"add": [{"col": "value"}, {"col": "version"}]}}]}], "outputs": ["p"]});
+    let r = call(&app, Method::POST, "/api/v1/engine/run", Some(VIEWER), Some(bad_units)).await;
+    assert_eq!(r.status, StatusCode::OK, "t/ha + a unitless count is allowed (the count has no unit): {}", r.text);
+    let bad_units = json!({"nodes": [{"id": "y", "op": "scan", "domain": D, "entity": E},
+        {"id": "p", "op": "project", "input": "y", "columns": [{"name": "x", "expr": {"add": [{"col": "value"}, {"convert": [{"col": "value"}, "kg/ha"]}]}}]}], "outputs": ["p"]});
+    let r = call(&app, Method::POST, "/api/v1/engine/plan", Some(VIEWER), Some(bad_units)).await;
+    assert_eq!(r.code(), "invalid_input");
+    assert!(r.json()["error"]["message"].as_str().unwrap().contains("node `p`"), "{}", r.text);
+
+    let sql = "SELECT count(*) AS n, round(avg(value), 2) AS mean FROM crop_yield_and_production__yield_observations WHERE value > 5";
+    let r = call(&app, Method::POST, "/api/v1/engine/sql", Some(VIEWER), Some(json!({ "sql": sql, "explain": true }))).await;
+    assert_eq!(r.status, StatusCode::OK, "{}", r.text);
+    assert_eq!(r.data()["table"]["rows"][0], json!([2, 5.7]));
+    assert!(r.data()["physical_plan"].is_string());
+    let r = call(&app, Method::POST, "/api/v1/engine/sql", Some(VIEWER), Some(json!({ "sql": "DROP TABLE crop_yield_and_production__yield_observations" }))).await;
+    assert_eq!(r.code(), "invalid_input", "SQL sessions are read-only");
+    let r = call(&app, Method::POST, "/api/v1/engine/sql?format=parquet", Some(OTHER), Some(json!({ "sql": "SELECT * FROM crop_yield_and_production__yield_observations" }))).await;
+    assert_eq!(r.status, StatusCode::OK);
+    assert_eq!(r.headers["content-type"], "application/vnd.apache.parquet");
+    let r = call(&app, Method::POST, "/api/v1/engine/sql", Some(VIEWER), Some(json!({ "sql": "SELECT 1", "max_rows": 0 }))).await;
+    assert_eq!(r.code(), "invalid_input");
+}

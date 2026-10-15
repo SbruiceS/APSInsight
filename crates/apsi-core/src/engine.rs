@@ -91,6 +91,19 @@ struct IdempotencyEntry {
     report: BulkReport,
 }
 
+/// One entity kind with data, as seen by analytics.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct AnalyticsTable {
+    pub domain: String,
+    pub entity: String,
+    pub rows: usize,
+    /// Sum of record versions; with `rows` and `last_updated` it changes on
+    /// every create, update, archive or delete.
+    pub version_sum: u64,
+    #[serde(with = "time::serde::rfc3339")]
+    pub last_updated: OffsetDateTime,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MigrationRecord {
     pub tenant: String,
@@ -1147,6 +1160,42 @@ impl Engine {
                 audit_events: st.audit.for_tenant(tenant).count(),
                 audit_chain_valid: st.audit.verify().is_ok(),
             })
+        })
+    }
+
+    // ------------------------------------------------------------- analytics
+
+    /// Read-only snapshot of one entity kind for the APSI Compute Engine: the
+    /// current schema and every non-archived record, ordered by id (stable).
+    pub fn analytics_snapshot(&self, p: &Principal, tenant: &str, domain: &str, entity: &str) -> Result<(EntitySchema, Vec<Record>)> {
+        let target = format!("{domain}/{entity}");
+        self.read(p, tenant, Permission::Read, "analytics.scan", &target, |st, _| {
+            check_kind(domain, entity)?;
+            let mut records: Vec<Record> = partition(st, tenant, domain, entity).filter(|r| r.lifecycle != Lifecycle::Archived).cloned().collect();
+            records.sort_by(|a, b| a.id.cmp(&b.id));
+            Ok((st.current_schema(tenant, domain, entity), records))
+        })
+    }
+
+    /// Entity kinds holding non-archived records for this tenant, with the
+    /// count and a fingerprint that changes whenever any of them changes.
+    pub fn analytics_tables(&self, p: &Principal, tenant: &str) -> Result<Vec<AnalyticsTable>> {
+        self.read(p, tenant, Permission::Read, "analytics.tables", "-", |st, _| {
+            let mut out: BTreeMap<(String, String), AnalyticsTable> = BTreeMap::new();
+            for s in st.records.values().filter(|s| s.record.tenant == tenant && s.record.lifecycle != Lifecycle::Archived) {
+                let r = &s.record;
+                let t = out.entry((r.domain.clone(), r.entity.clone())).or_insert_with(|| AnalyticsTable {
+                    domain: r.domain.clone(),
+                    entity: r.entity.clone(),
+                    rows: 0,
+                    version_sum: 0,
+                    last_updated: r.updated_at,
+                });
+                t.rows += 1;
+                t.version_sum += r.version;
+                t.last_updated = t.last_updated.max(r.updated_at);
+            }
+            Ok(out.into_values().collect())
         })
     }
 

@@ -768,3 +768,25 @@ fn record_envelope_matches_published_json_schema() {
     }
     assert!(serde_json::to_value(&archived).unwrap().get("archived_at").is_some());
 }
+
+#[test]
+fn analytics_snapshots_are_tenant_scoped_and_exclude_archived_records() {
+    let e = Engine::in_memory();
+    let a = e.create(&editor(), T, D, E, rec("Plot A", json!({"value": 6.1}))).unwrap();
+    let b = e.create(&editor(), T, D, E, rec("Plot B", json!({"value": 7.2}))).unwrap();
+    e.create(&outsider(), "other-co", D, E, rec("Elsewhere", json!({"value": 5.0}))).unwrap();
+    let before = e.analytics_tables(&viewer(), T).unwrap();
+    assert_eq!(before.len(), 1);
+    assert_eq!((before[0].domain.as_str(), before[0].entity.as_str(), before[0].rows), (D, E, 2));
+    let (schema, rows) = e.analytics_snapshot(&viewer(), T, D, E).unwrap();
+    assert_eq!(schema.entity, E);
+    let mut ids: Vec<&str> = vec![a.id.as_str(), b.id.as_str()];
+    ids.sort();
+    assert_eq!(rows.iter().map(|r| r.id.as_str()).collect::<Vec<_>>(), ids, "stable id order, own tenant only");
+    e.transition(&editor(), T, &b.id, b.version, Lifecycle::Archived).unwrap();
+    let after = e.analytics_tables(&viewer(), T).unwrap();
+    assert_eq!(after[0].rows, 1, "archived records are not analysed");
+    assert_ne!(after[0].version_sum, before[0].version_sum);
+    assert!(matches!(e.analytics_snapshot(&outsider(), T, D, E), Err(ApsiError::Forbidden(_))));
+    assert!(matches!(e.analytics_snapshot(&viewer(), T, D, "no-such-kind"), Err(ApsiError::NotFound(_))));
+}

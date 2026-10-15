@@ -247,3 +247,102 @@ export interface AuditVerification {
   events?: number;
   broken_at?: number;
 }
+
+// ---- APSI Compute Engine (/api/v1/engine) ----
+
+export type EngineDataType = 'float64' | 'int64' | 'utf8' | 'boolean';
+export type BackendKind = 'cpu' | 'native' | 'accelerator';
+
+export interface EngineField {
+  name: string;
+  type: EngineDataType;
+  unit?: string;
+}
+
+export interface EngineTable {
+  columns: EngineField[];
+  rows: unknown[][];
+  total_rows: number;
+  truncated: boolean;
+}
+
+export interface EngineBackend {
+  kind: BackendKind;
+  available: boolean;
+  detail: string;
+  kernels: string[];
+}
+
+export interface EngineCapabilities {
+  engine_version: string;
+  backends: EngineBackend[];
+  operators: string[];
+  kernels: string[];
+  aggregates: string[];
+  sql: { engine: string; columnar_format: string; export: string[]; read_only: boolean };
+  limits: { max_nodes: number; max_memory_mb: number; max_output_rows: number; checkpoint_capacity_bytes: number };
+}
+
+export interface EngineTableInfo {
+  table: string;
+  domain: string;
+  entity: string;
+  rows: number;
+  columns: EngineField[];
+}
+
+export interface SqlResult {
+  table: EngineTable;
+  tables_used: string[];
+  elapsed_us: number;
+  logical_plan?: string;
+  physical_plan?: string;
+}
+
+export interface NodeCost {
+  id: string;
+  op: string;
+  rows: number;
+  bytes: number;
+  work: number;
+  backend: BackendKind;
+  reason: string;
+}
+
+export interface PlanReport {
+  optimized: { nodes: { id: string; op: string }[]; outputs: string[] };
+  outputs: Record<string, string>;
+  rewrites: { rule: string; detail: string }[];
+  levels: string[][];
+  costs: NodeCost[];
+  notes: string[];
+}
+
+export interface NodeProfile {
+  id: string;
+  op: string;
+  backend: BackendKind;
+  rows: number;
+  bytes: number;
+  elapsed_us: number;
+  cache: 'hit' | 'miss' | 'off';
+  note?: string;
+}
+
+export interface CheckResult {
+  output: string;
+  column: string;
+  rule: string;
+  violations: number;
+  examples: number[];
+  passed: boolean;
+}
+
+export interface RunReport {
+  plan: PlanReport;
+  outputs: Record<string, EngineTable>;
+  profile: NodeProfile[];
+  checks: CheckResult[];
+  memory: { limit_bytes: number; peak_bytes: number; checkpoint_entries: number; checkpoint_bytes: number };
+  elapsed_us: number;
+}

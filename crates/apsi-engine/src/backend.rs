@@ -11,7 +11,7 @@
 
 use crate::{EngineError, Result};
 use apsi_contracts::agricuda::{BufferDescriptor, ComputeJob, ComputePort, DType, Role, Tolerance};
-use apsi_contracts::{Adapter, Availability, CapabilityReport, Product, Unavailable};
+use apsi_contracts::{Availability, CapabilityReport, Product, Unavailable};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::sync::Arc;

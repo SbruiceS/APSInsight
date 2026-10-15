@@ -15,7 +15,6 @@ pub struct TableInfo {
     /// SQL name: `domain__entity` with `-` replaced by `_`.
     pub table: String,
     pub rows: u64,
-    pub schema: Schema,
 }
 
 pub fn sql_name(domain: &str, entity: &str) -> String {
@@ -30,7 +29,8 @@ pub trait DataSource: Send + Sync {
     fn fingerprint(&self, domain: &str, entity: &str) -> Result<String>;
     /// All rows, restricted to `columns` when given (projection pushdown).
     fn scan(&self, domain: &str, entity: &str, columns: Option<&[String]>) -> Result<Batch>;
-    /// Tables that currently hold data, for SQL and discovery.
+    /// Tables that currently hold data, for SQL and discovery (cheap: no
+    /// schema or rows are materialised).
     fn tables(&self) -> Result<Vec<TableInfo>>;
 }
 
@@ -82,7 +82,7 @@ impl DataSource for MemorySource {
             .tables
             .read()
             .iter()
-            .map(|((d, e), (b, _))| TableInfo { domain: d.clone(), entity: e.clone(), table: sql_name(d, e), rows: b.rows() as u64, schema: b.schema.clone() })
+            .map(|((d, e), (b, _))| TableInfo { domain: d.clone(), entity: e.clone(), table: sql_name(d, e), rows: b.rows() as u64 })
             .collect())
     }
 }

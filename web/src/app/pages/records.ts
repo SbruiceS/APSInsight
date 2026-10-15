@@ -121,6 +121,7 @@ export const COMMON_UNITS = ['1', '%', 'kg/ha', 't/ha', 'lb/ac', 'mm', 'mm/d', '
               @if (values().length > 0) {
                 <a class="button-link ghost" routerLink="/lab" [queryParams]="labLink()"><apsi-icon name="flask" /> {{ 'records.openLab' | t }}</a>
               }
+              <a class="button-link ghost" routerLink="/engine" [queryParams]="{ table: sqlTable() }"><apsi-icon name="database" /> {{ 'records.querySql' | t }}</a>
             </div>
             @if (stats(); as s) {
               <dl class="stat-strip">
@@ -236,6 +237,8 @@ export class RecordsPage {
   readonly values = computed(() =>
     (this.list.data()?.items ?? []).map((r) => r.attributes['value']).filter((v): v is number => typeof v === 'number' && Number.isFinite(v)),
   );
+  /** SQL table name used by the Compute Engine (`domain__entity`, dashes as underscores). */
+  readonly sqlTable = computed(() => this.domain().replace(/-/g, '_') + '__' + this.entity().replace(/-/g, '_'));
   readonly labLink = computed(() => ({ fn: 'stats.describe', input: JSON.stringify(this.values()) }));
 
   constructor() {

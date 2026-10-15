@@ -27,6 +27,7 @@
 //! | Memory manager, checkpoint manager | [`runtime`] |
 //! | Execution profiler, result validator | [`exec::NodeProfile`], [`exec::CheckResult`] |
 //! | SQL engine, Arrow, Parquet | [`sql`] |
+//! | Tenant records as tables | [`records`] |
 
 pub mod backend;
 pub mod cost;
@@ -34,6 +35,7 @@ pub mod exec;
 pub mod expr;
 pub mod optimizer;
 pub mod plan;
+pub mod records;
 pub mod runtime;
 pub mod source;
 pub mod sql;

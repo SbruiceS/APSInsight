@@ -56,7 +56,7 @@ pub fn estimate(wf: &Workflow, schemas: &BTreeMap<String, Schema>, source: &dyn 
     let mut out = Vec::new();
     for id in wf.topo_order()? {
         let Some(node) = wf.node(&id) else { continue };
-        let r = |i: &str| rows.get(i).copied().unwrap_or(0);
+        let r = |i: &str| -> u64 { rows.get(i).copied().unwrap_or(0) };
         let (n, work) = match &node.op {
             Op::Scan { domain, entity, filter, .. } => {
                 let base = source.estimate_rows(domain, entity).map_err(|e| e.at(&id))?;
@@ -85,9 +85,10 @@ pub fn estimate(wf: &Workflow, schemas: &BTreeMap<String, Schema>, source: &dyn 
                 crate::plan::Kernel::Ndvi { .. } => (r(input), r(input) * 4),
             },
         };
+        let rows_in = r(node.op.inputs().first().copied().unwrap_or(""));
         rows.insert(id.clone(), n);
         let bytes = n * schemas.get(&id).map_or(16, row_bytes);
-        let (backend, reason) = choose(&node.op, r(node.op.inputs().first().copied().unwrap_or("")), bytes, work, wf.options.backend, backends);
+        let (backend, reason) = choose(&node.op, rows_in, bytes, work, wf.options.backend, backends);
         out.push(NodeCost { id, op: node.op.name(), rows: n, bytes, work, backend, reason });
     }
     Ok(out)

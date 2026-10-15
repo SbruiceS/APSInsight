@@ -111,11 +111,13 @@ version = "0.1.0"
 dependencies = [
  "apsi-contracts",
  "apsi-core",
+ "apsi-engine",
  "apsi-science",
  "clap",
  "serde",
  "serde_json",
  "tempfile",
+ "tokio",
 ]
 
 [[package]]
@@ -152,6 +154,7 @@ name = "apsi-engine"
 version = "0.1.0"
 dependencies = [
  "apsi-contracts",
+ "apsi-core",
  "apsi-native",
  "apsi-science",
  "datafusion",
@@ -162,6 +165,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "thiserror",
+ "time",
  "tokio",
 ]
 
@@ -200,6 +204,7 @@ version = "0.1.0"
 dependencies = [
  "apsi-contracts",
  "apsi-core",
+ "apsi-engine",
  "apsi-science",
  "axum",
  "clap",

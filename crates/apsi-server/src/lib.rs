@@ -30,11 +30,19 @@ pub struct AppState {
     pub engine: Arc<Engine>,
     pub tokens: Arc<TokenRegistry>,
     pub limiter: Arc<auth::RateLimiter>,
+    /// APSI Compute Engine; its checkpoint store is shared by all requests
+    /// (keys include the tenant, see analytics::RecordSource::fingerprint).
+    pub compute: apsi_engine::ComputeEngine,
 }
 
 impl AppState {
     pub fn new(engine: Engine, tokens: TokenRegistry, requests_per_minute: u32) -> Self {
-        Self { engine: Arc::new(engine), tokens: Arc::new(tokens), limiter: Arc::new(auth::RateLimiter::new(requests_per_minute)) }
+        Self {
+            engine: Arc::new(engine),
+            tokens: Arc::new(tokens),
+            limiter: Arc::new(auth::RateLimiter::new(requests_per_minute)),
+            compute: apsi_engine::ComputeEngine::default(),
+        }
     }
 }
 

@@ -8,6 +8,8 @@ import {
   Catalog,
   ComputeFunction,
   DomainDashboard,
+  EngineCapabilities,
+  EngineTableInfo,
   Envelope,
   ErrorBody,
   Feature,
@@ -18,10 +20,13 @@ import {
   Notification,
   Overview,
   Page,
+  PlanReport,
   Principal,
   QualityReport,
   RecordVersion,
+  RunReport,
   SearchPage,
+  SqlResult,
   StatusSummary,
   TraceRow,
 } from './models';
@@ -178,6 +183,33 @@ export class Api {
 
   compute(fn: string, input: unknown): Observable<unknown> {
     return this.post(`/api/v1/compute/${encodeURIComponent(fn)}`, input);
+  }
+
+  engine(): Observable<EngineCapabilities> {
+    return this.get('/api/v1/engine');
+  }
+
+  engineTables(): Observable<EngineTableInfo[]> {
+    return this.get('/api/v1/engine/tables');
+  }
+
+  enginePlan(workflow: unknown): Observable<PlanReport> {
+    return this.post('/api/v1/engine/plan', workflow);
+  }
+
+  engineRun(workflow: unknown): Observable<RunReport> {
+    return this.post('/api/v1/engine/run', workflow);
+  }
+
+  engineSql(body: { sql: string; max_rows?: number; explain?: boolean }): Observable<SqlResult> {
+    return this.post('/api/v1/engine/sql', body);
+  }
+
+  /** Parquet download of one workflow output (`run`), or of a SQL result (`sql`). */
+  engineParquet(kind: 'run' | 'sql', body: unknown, output?: string): Observable<Blob> {
+    let params = new HttpParams().set('format', 'parquet');
+    if (output) params = params.set('output', output);
+    return this.http.post(`/api/v1/engine/${kind}`, body, { params, responseType: 'blob' }).pipe(catchError((e: unknown) => throwError(() => ApiFailure.from(e))));
   }
 
   private kind(domain: string, entity: string): string {

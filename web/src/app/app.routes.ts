@@ -14,6 +14,7 @@ export const routes: Routes = [
       { path: 'domains/:domain/:entity', loadComponent: () => import('./pages/records').then((m) => m.RecordsPage), title: 'Records · APSInsight' },
       { path: 'records/:id', loadComponent: () => import('./pages/record').then((m) => m.RecordPage), title: 'Record · APSInsight' },
       { path: 'lab', loadComponent: () => import('./pages/lab').then((m) => m.LabPage), title: 'Science lab · APSInsight' },
+      { path: 'engine', loadComponent: () => import('./pages/engine').then((m) => m.EnginePage), title: 'Compute engine · APSInsight' },
       { path: 'status', loadComponent: () => import('./pages/status').then((m) => m.StatusPage), title: 'Feature status · APSInsight' },
       { path: 'features', loadComponent: () => import('./pages/features').then((m) => m.FeaturesPage), title: 'Feature register · APSInsight' },
       { path: 'integrations', loadComponent: () => import('./pages/integrations').then((m) => m.IntegrationsPage), title: 'ASPF integrations · APSInsight' },

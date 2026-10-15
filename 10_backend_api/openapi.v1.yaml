@@ -406,6 +406,50 @@ paths:
       responses:
         "200": { $ref: "#/components/responses/Ok" }
         "400": { $ref: "#/components/responses/Error" }
+  /api/v1/engine:
+    get:
+      tags: [automation]
+      summary: APSI Compute Engine capabilities — CPU, native C++ and accelerator backends (with availability), operators, kernels, SQL engine and limits.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "401": { $ref: "#/components/responses/Error" }
+  /api/v1/engine/tables:
+    get:
+      tags: [automation]
+      summary: Entity kinds holding non-archived records for the caller's tenant, as SQL tables (<domain>__<entity>) with typed, unit-annotated columns.
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/v1/engine/plan:
+    post:
+      tags: [automation]
+      summary: Validate, type- and unit-check, optimize and cost a workflow (a DAG of scan/values/filter/project/aggregate/join/sort/limit/kernel nodes) without running it.
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "400": { $ref: "#/components/responses/Error" }
+  /api/v1/engine/run:
+    post:
+      tags: [automation]
+      summary: Plan and execute a workflow; returns outputs, per-node profile, checks and memory use. format=parquet returns one output (output=<id>) as an Apache Parquet file.
+      parameters:
+        - { name: format, in: query, schema: { type: string, enum: [json, parquet] } }
+        - { name: output, in: query, schema: { type: string } }
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "400": { $ref: "#/components/responses/Error" }
+        "413": { $ref: "#/components/responses/Error" }
+  /api/v1/engine/sql:
+    post:
+      tags: [automation]
+      summary: Read-only SQL over the tenant's entity-kind tables (Apache DataFusion on Apache Arrow); body {sql, max_rows?, explain?}. DDL, DML and statements are rejected; memory and time are bounded. format=parquet returns the rows as Parquet.
+      parameters:
+        - { name: format, in: query, schema: { type: string, enum: [json, parquet] } }
+      requestBody: { $ref: "#/components/requestBodies/Json" }
+      responses:
+        "200": { $ref: "#/components/responses/Ok" }
+        "400": { $ref: "#/components/responses/Error" }
   /api/v1/audit:
     get:
       tags: [governance]

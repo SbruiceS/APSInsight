@@ -116,6 +116,11 @@ enum Cmd {
     },
     /// Capability discovery for planned ASPF products (all optional; none exist yet).
     Integrations,
+    /// APSI Compute Engine: backends, tables, workflow plans and runs, read-only SQL.
+    Engine {
+        #[command(subcommand)]
+        cmd: EngineCmd,
+    },
     /// Regenerate docs/domains/*.md, docs/traceability.csv, docs/STATUS.md and docs/UNITS.md.
     Docs {
         #[command(subcommand)]
@@ -128,6 +133,41 @@ enum Cmd {
         /// Use a temporary persistent engine (journal + fsync per commit) instead of memory.
         #[arg(long)]
         persistent: bool,
+    },
+}
+
+#[derive(Subcommand)]
+enum EngineCmd {
+    /// Backends (CPU, native C++, accelerator), operators and limits.
+    Info,
+    /// Entity kinds holding data, with their SQL table names and columns.
+    Tables,
+    /// Validate, type-check, optimize and cost a workflow without running it.
+    Plan {
+        /// Workflow JSON file (or - for stdin).
+        #[arg(long)]
+        file: String,
+    },
+    /// Run a workflow. With --parquet, writes one output as an Apache Parquet file.
+    Run {
+        #[arg(long)]
+        file: String,
+        #[arg(long)]
+        parquet: Option<PathBuf>,
+        /// Output to write with --parquet (default: the first output).
+        #[arg(long)]
+        output: Option<String>,
+    },
+    /// Read-only SQL over entity-kind tables (Apache DataFusion).
+    Sql {
+        /// The query, or @file / - for stdin.
+        sql: String,
+        #[arg(long, default_value_t = 1000)]
+        max_rows: usize,
+        #[arg(long)]
+        explain: bool,
+        #[arg(long)]
+        parquet: Option<PathBuf>,
     },
 }
 
@@ -456,6 +496,7 @@ fn run(cli: Cli) -> Result<Out, ApsiError> {
             })),
         },
         Cmd::Integrations => to_json(json!(apsi_contracts::discover_all())),
+        Cmd::Engine { cmd } => engine_cmd(cmd, Arc::new(open()?), p),
         Cmd::Catalog { domain } => match domain {
             None => to_json(
                 catalog()
@@ -690,6 +731,56 @@ fn bench(n: usize, persistent: bool) -> Result<Out, ApsiError> {
         "note": "Measured on this machine in this process; not a guarantee for other hardware or persistent storage.",
         "results": results,
     }))
+}
+
+fn engine_cmd(cmd: EngineCmd, engine: Arc<Engine>, p: Principal) -> Result<Out, ApsiError> {
+    use apsi_engine::records::{RecordSource, to_core};
+    use apsi_engine::source::DataSource;
+    let compute = apsi_engine::ComputeEngine::default();
+    let src = RecordSource::new(Arc::clone(&engine), p.clone());
+    let write_parquet = |path: &PathBuf, batch: &apsi_engine::types::Batch| -> Result<Out, ApsiError> {
+        let bytes = apsi_engine::sql::to_parquet(batch).map_err(to_core)?;
+        std::fs::write(path, &bytes).map_err(|e| ApsiError::Storage(format!("{}: {e}", path.display())))?;
+        to_json(json!({ "written": path, "bytes": bytes.len(), "rows": batch.rows() }))
+    };
+    match cmd {
+        EngineCmd::Info => to_json(compute.capabilities()),
+        EngineCmd::Tables => {
+            let mut out = Vec::new();
+            for t in src.tables().map_err(to_core)? {
+                let schema = src.schema(&t.domain, &t.entity).map_err(to_core)?;
+                out.push(json!({ "table": t.table, "domain": t.domain, "entity": t.entity, "rows": t.rows, "columns": schema.fields }));
+            }
+            to_json(out)
+        }
+        EngineCmd::Plan { file } => to_json(compute.plan(&parse(&read_file(&file)?)?, &src).map_err(to_core)?),
+        EngineCmd::Run { file, parquet, output } => {
+            let wf: apsi_engine::plan::Workflow = parse(&read_file(&file)?)?;
+            match parquet {
+                None => to_json(compute.run(&wf, &src).map_err(to_core)?),
+                Some(path) => {
+                    let name = output.or_else(|| wf.outputs.first().cloned()).unwrap_or_default();
+                    let (_, batches) = compute.run_batches(&wf, &src).map_err(to_core)?;
+                    let batch = batches.get(&name).ok_or_else(|| ApsiError::InvalidInput(format!("`{name}` is not an output of this workflow")))?;
+                    write_parquet(&path, batch)
+                }
+            }
+        }
+        EngineCmd::Sql { sql, max_rows, explain, parquet } => {
+            if max_rows == 0 || max_rows > 100_000 {
+                return Err(ApsiError::InvalidInput("max_rows must be within 1..=100000".into()));
+            }
+            let sql = read_input(&sql)?;
+            let limits = apsi_engine::sql::SqlLimits { max_rows, ..Default::default() };
+            let runtime = tokio::runtime::Builder::new_multi_thread().enable_all().build().map_err(|e| ApsiError::Internal(e.to_string()))?;
+            let source: Arc<dyn DataSource> = Arc::new(src);
+            let (result, batch) = runtime.block_on(apsi_engine::sql::query_with_batch(source, &sql, &limits, explain)).map_err(to_core)?;
+            match parquet {
+                Some(path) => write_parquet(&path, &batch),
+                None => to_json(result),
+            }
+        }
+    }
 }
 
 fn main() -> ExitCode {

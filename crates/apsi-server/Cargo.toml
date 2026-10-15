@@ -8,6 +8,7 @@ rust-version.workspace = true
 [dependencies]
 apsi-core = { version = "0.1.0", path = "../apsi-core" }
 apsi-contracts = { version = "0.1.0", path = "../apsi-contracts" }
+apsi-engine = { version = "0.1.0", path = "../apsi-engine" }
 apsi-science = { version = "0.1.0", path = "../apsi-science" }
 axum = "0.8.9"
 clap = { version = "4.6.7", features = ["derive", "env"] }

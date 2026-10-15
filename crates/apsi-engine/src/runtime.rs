@@ -77,8 +77,11 @@ pub enum CacheState {
 /// the oldest entries are evicted first.
 pub struct CheckpointStore {
     capacity: u64,
-    inner: Mutex<(BTreeMap<String, Arc<Batch>>, VecDeque<String>, u64)>,
+    inner: Mutex<Entries>,
 }
+
+/// Entries by key, insertion order (for eviction), and total bytes.
+type Entries = (BTreeMap<String, Arc<Batch>>, VecDeque<String>, u64);
 
 impl CheckpointStore {
     pub fn new(capacity_bytes: u64) -> Self {

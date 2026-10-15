@@ -23,7 +23,10 @@ export const NAV_SECTIONS: { label: I18nKey; pages: NavPage[] }[] = [
   },
   {
     label: 'nav.science',
-    pages: [{ path: '/lab', label: 'nav.lab', icon: 'flask' }],
+    pages: [
+      { path: '/lab', label: 'nav.lab', icon: 'flask' },
+      { path: '/engine', label: 'nav.engine', icon: 'chip' },
+    ],
   },
   {
     label: 'nav.governance',

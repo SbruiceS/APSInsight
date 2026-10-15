@@ -3,7 +3,10 @@
 
 use crate::AppState;
 use crate::auth::Auth;
-use apsi_core::auth::Permission;
+use apsi_core::auth::{Permission, Principal};
+use apsi_engine::plan::Workflow;
+use apsi_engine::records::{RecordSource, to_core};
+use apsi_engine::source::DataSource;
 use apsi_core::bulk::BulkRequest;
 use apsi_core::catalog::{catalog, features};
 use apsi_core::engine::ImportBody;
@@ -161,6 +164,11 @@ pub fn routes() -> Router<AppState> {
         .route("/api/v1/integrations", get(integrations_h))
         .route("/api/v1/compute", get(compute_list))
         .route("/api/v1/compute/{function}", post(compute))
+        .route("/api/v1/engine", get(engine_capabilities))
+        .route("/api/v1/engine/tables", get(engine_tables))
+        .route("/api/v1/engine/plan", post(engine_plan))
+        .route("/api/v1/engine/run", post(engine_run))
+        .route("/api/v1/engine/sql", post(engine_sql))
         .route("/api/v1/audit", get(audit))
         .route("/api/v1/audit/verify", get(audit_verify))
         .route("/api/{*rest}", any(api_not_found))
@@ -617,4 +625,106 @@ async fn audit_verify(State(app): State<AppState>, Auth(p): Auth) -> ApiResult {
         Ok(events) => json!({ "valid": true, "events": events }),
         Err(seq) => json!({ "valid": false, "broken_at": seq }),
     })
+}
+
+// ------------------------------------------------------- compute engine
+
+/// Runs engine work for one principal on a blocking thread, over a fresh
+/// per-request record snapshot.
+async fn analytics<T: Send + 'static>(
+    app: &AppState,
+    p: Principal,
+    f: impl FnOnce(&apsi_engine::ComputeEngine, &RecordSource) -> apsi_engine::Result<T> + Send + 'static,
+) -> Result<T, ApiError> {
+    p.authorize(&p.tenant, Permission::Read)?;
+    let (engine, compute) = (app.engine.clone(), app.compute.clone());
+    tokio::task::spawn_blocking(move || f(&compute, &RecordSource::new(engine, p)))
+        .await
+        .map_err(|e| ApiError(ApsiError::Internal(e.to_string())))?
+        .map_err(|e| ApiError(to_core(e)))
+}
+
+fn parquet_response(name: &str, batch: &apsi_engine::types::Batch) -> ApiResult {
+    let bytes = apsi_engine::sql::to_parquet(batch).map_err(|e| ApiError(to_core(e)))?;
+    let safe: String = name.chars().map(|c| if c.is_ascii_alphanumeric() || c == '-' || c == '_' { c } else { '_' }).collect();
+    let disposition = format!("attachment; filename=\"{safe}.parquet\"");
+    Ok(([(header::CONTENT_TYPE, "application/vnd.apache.parquet".to_string()), (header::CONTENT_DISPOSITION, disposition)], bytes).into_response())
+}
+
+async fn engine_capabilities(State(app): State<AppState>, Auth(p): Auth) -> ApiResult {
+    p.authorize(&p.tenant, Permission::Read)?;
+    ok(app.compute.capabilities())
+}
+
+async fn engine_tables(State(app): State<AppState>, Auth(p): Auth) -> ApiResult {
+    let tables = analytics(&app, p, |_, src| {
+        src.tables()?
+            .into_iter()
+            .map(|t| {
+                let schema = src.schema(&t.domain, &t.entity)?;
+                Ok(json!({ "table": t.table, "domain": t.domain, "entity": t.entity, "rows": t.rows, "columns": schema.fields }))
+            })
+            .collect::<apsi_engine::Result<Vec<Value>>>()
+    })
+    .await?;
+    ok(tables)
+}
+
+async fn engine_plan(State(app): State<AppState>, Auth(p): Auth, ApiJson(wf): ApiJson<Workflow>) -> ApiResult {
+    ok(analytics(&app, p, move |c, src| c.plan(&wf, src)).await?)
+}
+
+#[derive(Deserialize)]
+struct EngineFormat {
+    /// `json` (default) or `parquet`.
+    format: Option<String>,
+    /// Output to export as Parquet; defaults to the first output.
+    output: Option<String>,
+}
+
+fn wants_parquet(f: &EngineFormat) -> Result<bool, ApiError> {
+    match f.format.as_deref().unwrap_or("json") {
+        "json" => Ok(false),
+        "parquet" => Ok(true),
+        other => Err(ApsiError::InvalidInput(format!("format must be json or parquet, got `{other}`")).into()),
+    }
+}
+
+async fn engine_run(State(app): State<AppState>, Auth(p): Auth, ApiQuery(f): ApiQuery<EngineFormat>, ApiJson(wf): ApiJson<Workflow>) -> ApiResult {
+    if !wants_parquet(&f)? {
+        return ok(analytics(&app, p, move |c, src| c.run(&wf, src)).await?);
+    }
+    let name = f.output.clone().or_else(|| wf.outputs.first().cloned()).unwrap_or_default();
+    if !wf.outputs.contains(&name) {
+        return Err(ApsiError::InvalidInput(format!("`{name}` is not an output of this workflow")).into());
+    }
+    let wanted = name.clone();
+    let batch = analytics(&app, p, move |c, src| {
+        let (_, mut batches) = c.run_batches(&wf, src)?;
+        batches.remove(&wanted).ok_or_else(|| apsi_engine::EngineError::Internal("output missing".into()))
+    })
+    .await?;
+    parquet_response(&name, &batch)
+}
+
+#[derive(Deserialize)]
+struct SqlBody {
+    sql: String,
+    #[serde(default)]
+    max_rows: Option<usize>,
+    #[serde(default)]
+    explain: bool,
+}
+
+async fn engine_sql(State(app): State<AppState>, Auth(p): Auth, ApiQuery(f): ApiQuery<EngineFormat>, ApiJson(body): ApiJson<SqlBody>) -> ApiResult {
+    p.authorize(&p.tenant, Permission::Read)?;
+    let parquet = wants_parquet(&f)?;
+    let max_rows = body.max_rows.unwrap_or(1000);
+    if max_rows == 0 || max_rows > 100_000 {
+        return Err(ApsiError::InvalidInput("max_rows must be within 1..=100000".into()).into());
+    }
+    let limits = apsi_engine::sql::SqlLimits { max_rows, ..Default::default() };
+    let source: Arc<dyn apsi_engine::source::DataSource> = Arc::new(RecordSource::new(app.engine.clone(), p));
+    let (result, batch) = apsi_engine::sql::query_with_batch(source, &body.sql, &limits, body.explain).await.map_err(|e| ApiError(to_core(e)))?;
+    if parquet { parquet_response("query", &batch) } else { ok(result) }
 }
