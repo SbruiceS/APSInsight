@@ -1,3 +1,16 @@
+# Secrets and credentials
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+id_rsa
+id_ed25519
+credentials.json
+secrets.yml
+config/master.key
+config/credentials.yml.enc
+
 # Dependencies
 node_modules/
 vendor/

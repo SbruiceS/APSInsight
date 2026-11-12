@@ -1,0 +1,55 @@
+name: Security
+
+on:
+  push:
+    branches: [ main, master, implementation/polyglot-foundation ]
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  bundler-audit:
+    name: Bundler audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/rails
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: backend/rails
+      - name: Install bundler-audit
+        run: gem install bundler-audit
+      - name: Audit
+        run: bundle audit check --update || true
+
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm ci || npm install
+      - name: Audit
+        run: npm audit --audit-level=high || true
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
