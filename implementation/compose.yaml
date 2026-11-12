@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: apsinsight
+      POSTGRES_PASSWORD: apsinsight
+      POSTGRES_DB: apsinsight_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Rails app (to be configured)
+  # web:
+  #   build: ./backend/rails
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env
+
+  # Optional: Keycloak, MinIO, monitoring, etc.
+
+volumes:
+  postgres_data:

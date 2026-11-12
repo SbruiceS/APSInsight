@@ -1,0 +1,11 @@
+Package: apsinsight
+Title: APSInsight Statistical Computing
+Version: 0.1.0
+Authors: ASPF
+Description: Optional R statistical environment for APSInsight agricultural research.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 4.3.0)
+Imports: stats
+Suggests: testthat

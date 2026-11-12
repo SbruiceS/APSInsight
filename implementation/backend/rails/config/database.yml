@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: apsinsight_development
+  username: apsinsight
+  password: apsinsight
+  host: localhost
+
+test:
+  <<: *default
+  database: apsinsight_test
+  username: apsinsight
+  password: apsinsight
+  host: localhost

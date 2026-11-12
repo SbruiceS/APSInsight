@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+vendor/
+.bundle/
+*.gem
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+build/
+target/
+*.o
+*.so
+*.dylib
+*.exe
+cmake-build-*/
+CMakeFiles/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and data
+*.log
+logs/
+tmp/
+storage/
+data/raw/
+data/processed/
+
+# Docker
+.dockerignore
+
+# Coverage
+coverage/
+*.lcov
