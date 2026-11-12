@@ -5,7 +5,7 @@ export function Layout() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", minHeight: "100vh", background: "#0f172a", color: "#e2e8f0" }}>
       <header style={{ padding: "1rem 2rem", borderBottom: "1px solid #334155", display: "flex", gap: "2rem", alignItems: "center" }}>
-        <h1 style={{ margin: 0, fontSize: "1.5rem" }}>APSInsight</h1>
+        <img src="/logo.jpg" alt="APSInsight" style={{ height: 40 }} />
         <nav style={{ display: "flex", gap: "1.5rem" }}>
           <Link to="/" style={{ color: "#94a3b8", textDecoration: "none" }}>Dashboard</Link>
           <Link to="/datasets" style={{ color: "#94a3b8", textDecoration: "none" }}>Datasets</Link>

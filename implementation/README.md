@@ -1,5 +1,9 @@
 # APSInsight
 
+<p align="center">
+  <img src="docs/assets/logo.jpg" alt="APSInsight logo" width="480">
+</p>
+
 **Agricultural Data Analytics, Scientific Computing, Research and Intelligence Platform**
 
 Organization: Agriculture Service of Product Farm (ASPF)
